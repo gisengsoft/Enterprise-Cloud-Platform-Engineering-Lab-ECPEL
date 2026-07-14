@@ -99,6 +99,7 @@ Primary documentation entry points:
 - [Compliance](docs/compliance/README.md)
 - [Diagrams](docs/diagrams/README.md)
 - [System design](docs/system-design/README.md)
+- [Labs](labs/README.md)
 
 Supporting project files:
 

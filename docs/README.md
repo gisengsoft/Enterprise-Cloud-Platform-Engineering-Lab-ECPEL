@@ -17,6 +17,7 @@ This directory contains documentation for the Enterprise Cloud Platform Engineer
 - [RFCs](rfcs/README.md)
 - [Runbooks](runbooks/README.md)
 - [System design](system-design/README.md)
+- [Labs](../labs/README.md)
 
 ## Status
 
