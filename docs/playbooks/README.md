@@ -62,6 +62,3 @@ Allowed playbook statuses:
 | Playbook | Purpose | Status |
 | --- | --- | --- |
 | [0000-template.md](0000-template.md) | Reusable playbook template | Template |
-| [disaster-recovery.md](disaster-recovery.md) | Disaster recovery playbook placeholder | Placeholder |
-| [incident-response.md](incident-response.md) | Incident response playbook placeholder | Placeholder |
-| [postmortem-template.md](postmortem-template.md) | Legacy postmortem template placeholder | Placeholder |

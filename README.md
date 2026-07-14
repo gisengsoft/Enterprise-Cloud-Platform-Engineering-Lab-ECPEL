@@ -8,7 +8,7 @@ ECPEL is a learning and portfolio repository for designing an enterprise-grade c
 
 This repository is the project foundation for an enterprise cloud platform engineering lab. It is organized around the disciplines commonly required to design, govern, operate, and evolve a cloud platform, including architecture, market analysis, platform domains, runbooks, playbooks, security, compliance, FinOps, and delivery workflows.
 
-At the current stage, ECPEL is documentation-first. It does not include runnable infrastructure, deployed services, production automation, or completed labs. Any future capability must be backed by files, decisions, tests, and documentation in this repository before it is described as implemented.
+At the current stage, ECPEL is documentation-first. It does not include implemented cloud infrastructure, deployed services, production automation, or completed labs. The repository does include one local-only simulated Terraform learning lab, but that lab is not validated, is not production infrastructure, and does not provision cloud resources. Any future capability must be backed by files, decisions, tests, and documentation in this repository before it is described as implemented.
 
 ## Vision
 
@@ -62,23 +62,17 @@ Future ECPEL designs should follow these principles:
 
 ```text
 .
-├── .github/                 # GitHub templates and workflows; currently foundation files only
-├── docs/                    # Documentation, research, ADRs, runbooks, playbooks, and diagrams
+├── docs/                    # Documentation, research, ADRs, templates, diagrams, and compliance guidance
 │   ├── adr/                 # Architecture Decision Records
-│   ├── architecture/        # Architecture documentation
-│   ├── compliance/          # Compliance documentation
-│   ├── diagrams/            # Diagram sources
-│   ├── game-days/           # Resilience exercise documentation
-│   ├── interviews/          # Interview and discovery notes
-│   ├── market-analysis/     # Market and technology analysis
-│   ├── playbooks/           # Operational playbooks
-│   ├── portfolio/           # Portfolio presentation material
-│   ├── postmortems/         # Postmortem records and templates
-│   ├── rfcs/                # Requests for comments
-│   ├── runbooks/            # Operational runbooks
-│   └── system-design/       # System design documentation
-├── platform/                # Platform domain folders; currently documentation placeholders
-├── scripts/                 # Utility script locations; currently no implemented script logic
+│   ├── compliance/          # Compliance documentation and evidence template
+│   ├── diagrams/            # Version-controlled diagram documents
+│   ├── game-days/           # Game-day guidance and template
+│   ├── market-analysis/     # Market-analysis index and planned matrix artifact
+│   ├── playbooks/           # Operational playbook guidance and template
+│   ├── postmortems/         # Postmortem guidance and template
+│   ├── rfcs/                # Request-for-comments guidance and template
+│   └── runbooks/            # Operational runbook guidance and template
+├── labs/                    # Evidence-scoped labs; currently one simulated local Terraform lab
 ├── ARCHITECTURE.md          # Root architecture entry point
 ├── BLUEPRINT.md             # Root blueprint entry point
 ├── ROADMAP.md               # Root roadmap entry point
@@ -91,14 +85,12 @@ Primary documentation entry points:
 
 - [Documentation index](docs/README.md)
 - [Market analysis](docs/market-analysis/README.md)
-- [2026 Cloud Market Matrix](docs/market-analysis/2026-cloud-market-matrix.md)
-- [Architecture](docs/architecture/README.md)
+- [2026 Cloud Market Matrix placeholder](docs/market-analysis/2026-cloud-market-matrix.md)
 - [Architecture Decision Records](docs/adr/README.md)
 - [Runbooks](docs/runbooks/README.md)
 - [Playbooks](docs/playbooks/README.md)
 - [Compliance](docs/compliance/README.md)
 - [Diagrams](docs/diagrams/README.md)
-- [System design](docs/system-design/README.md)
 - [Labs](labs/README.md)
 
 Supporting project files:
@@ -106,10 +98,8 @@ Supporting project files:
 - [Architecture overview](ARCHITECTURE.md)
 - [Blueprint](BLUEPRINT.md)
 - [Roadmap](ROADMAP.md)
-- [Security policy](SECURITY.md)
-- [Contributing guide](CONTRIBUTING.md)
-- [Changelog](CHANGELOG.md)
-- [License](LICENSE)
+
+Planned governance documents such as contributing guidance, security policy, code of conduct, changelog, and license text have not yet been authored. Empty placeholder files were intentionally removed rather than presented as completed documents.
 
 ## Roadmap
 
@@ -148,19 +138,19 @@ The repository currently names several technology and practice areas as future o
 
 | Area | Current repository status |
 | --- | --- |
-| AWS Organizations | Mentioned by directory/file names only; not implemented |
-| Identity Center | Mentioned by directory/file names only; not implemented |
-| Landing zone | Mentioned by directory/file names only; not implemented |
-| Terraform | Mentioned by directory/file names only; not implemented |
-| EKS | Mentioned by directory/file names only; not implemented |
-| ECS | Mentioned by directory/file names only; not implemented |
-| GitOps | Mentioned by directory/file names only; not implemented |
-| DevSecOps | Mentioned by directory/file names only; not implemented |
-| Observability | Mentioned by directory/file names only; not implemented |
-| FinOps | Mentioned by directory/file names only; not implemented |
-| MLOps and AI platform | Mentioned by directory/file names only; not implemented |
-| GitHub Enterprise | Mentioned by directory/file names only; not implemented |
-| SonarQube Enterprise | Mentioned by directory/file names only; not implemented |
+| AWS Organizations | Mentioned in documentation only; not implemented |
+| Identity Center | Mentioned in documentation only; not implemented |
+| Landing zone | Mentioned in documentation only; not implemented |
+| Terraform | A local-only learning lab exists and is classified as **Simulated**; Terraform has not been adopted as the repository's primary implemented Infrastructure as Code tool, and no cloud infrastructure is provisioned |
+| EKS | Mentioned in documentation only; not implemented |
+| ECS | Mentioned in documentation only; not implemented |
+| GitOps | Mentioned in documentation only; not implemented |
+| DevSecOps | Mentioned in documentation only; not implemented |
+| Observability | Mentioned in documentation only; not implemented |
+| FinOps | Mentioned in documentation only; not implemented |
+| MLOps and AI platform | Mentioned in documentation only; not implemented |
+| GitHub Enterprise | Mentioned in documentation only; not implemented |
+| SonarQube Enterprise | Mentioned in documentation only; not implemented |
 
 ## Current Status
 
@@ -169,13 +159,13 @@ ECPEL is in the **initial foundation** stage.
 Current evidence in the repository supports the following statements:
 
 - The repository structure exists.
-- Documentation entry points exist.
-- Platform domain folders exist.
-- No infrastructure implementation is present.
+- Documentation entry points exist for architecture, roadmap, blueprint, ADRs, diagrams, operational templates, compliance, market analysis, and labs.
+- One local-only simulated Terraform learning lab exists.
+- No cloud or platform infrastructure is implemented.
 - No workflows are implemented.
-- No scripts contain executable logic.
+- No executable utility scripts are present.
 - No cloud resources are provisioned by this repository.
-- No platform capability should be considered implemented yet.
+- No production capability should be considered implemented yet.
 
 ## Project Goals
 
@@ -199,8 +189,8 @@ Before adding or changing content:
 4. Include operational, security, and cost considerations when proposing platform capabilities.
 5. Prefer small, reviewable changes with clear evidence.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the project contribution entry point.
+A dedicated contributing guide has not yet been authored. Until one exists, contributions should be reviewed against this README, the roadmap, ADRs, and the governing principle: **No evidence, no implementation.**
 
 ## License
 
-The repository contains a [LICENSE](LICENSE) file, but the license text has not yet been defined. Until a license is explicitly added, reuse rights are not established by this repository.
+No license has been selected yet. Until a license file with explicit terms is added, reuse rights are not established by this repository.

@@ -37,7 +37,7 @@ Diagram documents use lowercase kebab-case filenames:
 <diagram-topic>.md
 ```
 
-Existing empty `.mmd` files are retained as placeholders from earlier repository structure, but they are not listed as complete diagrams until populated with supported content.
+Empty diagram placeholders are not retained. Add a new diagram file only when it contains supported source content and links to evidence or source documents.
 
 ## Status Convention
 

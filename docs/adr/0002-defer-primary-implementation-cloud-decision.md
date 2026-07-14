@@ -10,7 +10,7 @@ Accepted
 
 ## Context
 
-The repository contains AWS-oriented placeholders and roadmap language for future AWS networking and identity work. It also describes AWS as a representative or reference technology in the blueprint. However, the repository does not contain implemented cloud infrastructure, deployed AWS resources, cloud account evidence, or an accepted cloud provider implementation decision.
+The repository contains AWS-oriented roadmap language and reference documentation for future AWS networking and identity work. It also describes AWS as a representative or reference technology in the blueprint. However, the repository does not contain implemented cloud infrastructure, deployed AWS resources, cloud account evidence, or an accepted cloud provider implementation decision.
 
 The governing principle requires that the repository must not claim implementation without evidence.
 
@@ -24,7 +24,7 @@ A future ADR must be created or this ADR must be superseded before ECPEL claims 
 
 ## Decision Drivers
 
-- The repository has AWS-oriented roadmap and placeholder documents.
+- The repository has AWS-oriented roadmap and reference documentation.
 - The blueprint identifies AWS as a reference cloud provider family, not an implementation commitment.
 - No cloud resources or provider configuration exist in the repository.
 - Cloud provider selection affects identity, networking, security, compliance, cost, IaC, runtime, and operations.
@@ -52,7 +52,7 @@ A future ADR must be created or this ADR must be superseded before ECPEL claims 
 
 ### Neutral consequences
 
-- Existing AWS-oriented placeholders remain in the repository.
+- AWS-oriented roadmap and reference language remains in the repository.
 - This ADR does not prevent future AWS implementation if later evidence supports it.
 
 ## Risks
@@ -73,7 +73,7 @@ This decision will be validated by:
 
 ## Evidence
 
-- [README.md](../../README.md) lists AWS Organizations as mentioned by directory or file names only and not implemented.
+- [README.md](../../README.md) lists AWS Organizations as mentioned in documentation only and not implemented.
 - [ROADMAP.md](../../ROADMAP.md) includes a planned AWS Networking and Identity phase and states that no AWS implementation is claimed without supporting artifacts.
 - [BLUEPRINT.md](../../BLUEPRINT.md) lists AWS as a representative reference technology and states that reference technologies are not implementation commitments.
 - [ARCHITECTURE.md](../../ARCHITECTURE.md) states that no cloud account or cloud resource should be considered implemented without supporting artifacts.

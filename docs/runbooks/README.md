@@ -97,8 +97,3 @@ Add future runbooks to this index only when they exist as files.
 | Runbook | Purpose | Status |
 | --- | --- | --- |
 | [0000-template.md](0000-template.md) | Reusable runbook template | Template |
-| [ecs.md](ecs.md) | ECS operational runbook placeholder | Placeholder |
-| [eks.md](eks.md) | EKS operational runbook placeholder | Placeholder |
-| [github-enterprise.md](github-enterprise.md) | GitHub Enterprise operational runbook placeholder | Placeholder |
-| [identity-center.md](identity-center.md) | Identity Center operational runbook placeholder | Placeholder |
-| [terraform.md](terraform.md) | Terraform operational runbook placeholder | Placeholder |

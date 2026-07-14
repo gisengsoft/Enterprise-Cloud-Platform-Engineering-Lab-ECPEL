@@ -23,4 +23,4 @@ The root module exposes `generated_resource_prefix` as the public output name fo
 
 ## Status
 
-In Progress. This module is part of the Terraform Local Foundation Lab and must not be treated as production-ready infrastructure code.
+Simulated. This module is part of the Terraform Local Foundation Lab and must not be treated as production-ready infrastructure code or evidence of cloud infrastructure implementation.

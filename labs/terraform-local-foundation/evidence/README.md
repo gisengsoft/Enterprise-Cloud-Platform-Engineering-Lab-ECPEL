@@ -1,6 +1,6 @@
 # Terraform Local Foundation Lab Evidence
 
-This evidence record tracks validation for the Terraform Local Foundation Lab.
+This evidence record tracks validation for the Terraform Local Foundation Lab, which is classified as **Simulated** because it is a local-only, non-production demonstration.
 
 > **Principle:** No evidence, no implementation.
 
@@ -31,7 +31,7 @@ This evidence record tracks validation for the Terraform Local Foundation Lab.
 ## Limitations
 
 - Terraform command validation was not performed in this execution environment.
-- The lab status remains **In Progress** until Terraform formatting, initialization, validation, test, and plan commands run successfully.
+- The lab status remains **Simulated** and not **Validated** until Terraform formatting, initialization, validation, test, and plan commands run successfully.
 - No generated Terraform state, plan, or lock files are included as evidence.
 
 ## Files Generated During Validation

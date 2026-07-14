@@ -72,7 +72,7 @@ This decision will be validated by:
 - [ROADMAP.md](../../ROADMAP.md) places GitOps in a planned later phase and states that no GitOps controller or reconciliation loop is claimed without implementation evidence.
 - [ARCHITECTURE.md](../../ARCHITECTURE.md) identifies GitOps and delivery strategy as a future ADR decision area.
 - [BLUEPRINT.md](../../BLUEPRINT.md) lists Argo CD as a representative GitOps technology, not an implementation commitment.
-- [README.md](../../README.md) lists GitOps as mentioned by directory or file names only and not implemented.
+- [README.md](../../README.md) lists GitOps as mentioned in documentation only and not implemented.
 
 ## Revisit Conditions
 

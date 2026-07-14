@@ -75,7 +75,7 @@ This decision will be validated by:
 - [ROADMAP.md](../../ROADMAP.md) defines Phase 6 as ECS Application Platform and Phase 8 as Kubernetes and EKS.
 - [ROADMAP.md](../../ROADMAP.md) states that ECS and EKS must not be marked implemented without repository artifacts and validation.
 - [BLUEPRINT.md](../../BLUEPRINT.md) lists Amazon ECS and Amazon EKS as representative technologies, not implementation commitments.
-- [README.md](../../README.md) lists ECS and EKS as mentioned by directory or file names only and not implemented.
+- [README.md](../../README.md) lists ECS and EKS as mentioned in documentation only and not implemented.
 
 ## Revisit Conditions
 
@@ -93,8 +93,7 @@ Revisit this decision if:
 - [ARCHITECTURE.md](../../ARCHITECTURE.md)
 - [BLUEPRINT.md](../../BLUEPRINT.md)
 - [ROADMAP.md](../../ROADMAP.md)
-- [ECS runbook placeholder](../runbooks/ecs.md)
-- [EKS runbook placeholder](../runbooks/eks.md)
+- [Runbook documentation foundation](../runbooks/README.md)
 
 ## Supersedes
 

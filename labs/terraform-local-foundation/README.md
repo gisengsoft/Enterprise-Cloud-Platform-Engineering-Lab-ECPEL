@@ -2,9 +2,9 @@
 
 ## Status
 
-Status: **In Progress**.
+Status: **Simulated**.
 
-This lab is local-only and documentation-backed, but it is not marked **Validated** or **Implemented** because Terraform was not available in the execution environment used to create this PR. See [evidence](evidence/README.md).
+This lab is a local-only simulation and learning exercise. It is not marked **Validated** or **Implemented** because Terraform was not available in the execution environment used to create this PR. It is not cloud infrastructure and is not evidence that Terraform has been adopted as the repository's primary implemented Infrastructure as Code tool. See [evidence](evidence/README.md).
 
 ## Purpose
 

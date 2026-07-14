@@ -53,6 +53,3 @@ After a real or simulated game day, complete a review, document findings, assign
 | Game Day | Purpose | Status |
 | --- | --- | --- |
 | [0000-template.md](0000-template.md) | Reusable game-day template | Template |
-| [game-day-001.md](game-day-001.md) | Game-day placeholder | Placeholder |
-| [game-day-002.md](game-day-002.md) | Game-day placeholder | Placeholder |
-| [game-day-003.md](game-day-003.md) | Game-day placeholder | Placeholder |

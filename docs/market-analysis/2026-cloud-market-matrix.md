@@ -2,9 +2,11 @@
 
 ## Status
 
-The requested market matrix location now exists at `docs/market-analysis/2026-cloud-market-matrix.md`.
+Status: **Planned placeholder**.
 
-The repository did not contain a previously authored market matrix body to preserve. This document therefore records the artifact location and status without inventing market findings, vendor comparisons, rankings, or implementation claims.
+The requested market matrix location exists at `docs/market-analysis/2026-cloud-market-matrix.md`.
+
+The repository did not contain a previously authored market matrix body to preserve. This document therefore records the artifact location and planned status without inventing market findings, vendor comparisons, rankings, or implementation claims. It is not completed market evidence.
 
 ## Evidence policy
 
