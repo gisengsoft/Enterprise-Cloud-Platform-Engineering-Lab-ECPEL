@@ -21,3 +21,15 @@ This directory contains documentation for the Enterprise Cloud Platform Engineer
 ## Status
 
 This documentation structure is in the foundation stage. Empty or minimal files should be treated as placeholders until they contain evidence-backed content.
+
+
+## Operational template status
+
+| Area | Purpose | Status |
+| --- | --- | --- |
+| [Runbooks](runbooks/README.md) | Repeatable operational procedures | Template available |
+| [Playbooks](playbooks/README.md) | Coordinated response scenarios | Template available |
+| [Postmortems](postmortems/README.md) | Blameless incident learning | Template available |
+| [RFCs](rfcs/README.md) | Design proposal and review process | Template available |
+| [Game Days](game-days/README.md) | Controlled resilience exercises | Template available |
+| [Compliance](compliance/README.md) | Educational control evidence | Template available |
