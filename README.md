@@ -99,7 +99,14 @@ Supporting project files:
 - [Blueprint](BLUEPRINT.md)
 - [Roadmap](ROADMAP.md)
 
-Planned governance documents such as contributing guidance, security policy, code of conduct, changelog, and license text have not yet been authored. Empty placeholder files were intentionally removed rather than presented as completed documents.
+Governance documents now provide repository contribution and review expectations:
+
+- [Contributing guide](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Changelog](CHANGELOG.md)
+
+License selection remains intentionally separate from governance documentation.
 
 ## Roadmap
 
@@ -189,7 +196,7 @@ Before adding or changing content:
 4. Include operational, security, and cost considerations when proposing platform capabilities.
 5. Prefer small, reviewable changes with clear evidence.
 
-A dedicated contributing guide has not yet been authored. Until one exists, contributions should be reviewed against this README, the roadmap, ADRs, and the governing principle: **No evidence, no implementation.**
+See the [Contributing guide](CONTRIBUTING.md) for contribution workflow, Pull Request expectations, validation guidance, status terminology, security requirements, cost awareness, and documentation standards.
 
 ## License
 

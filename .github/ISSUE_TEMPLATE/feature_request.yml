@@ -1,0 +1,103 @@
+name: Feature request
+description: Propose a repository capability, document, lab, workflow, or improvement for review.
+title: "feat: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to propose a change. Submission does not mean the feature is approved, implemented, scheduled, or validated. Do not include secrets, credentials, customer data, personal data, or sensitive vulnerability details.
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem statement
+      description: What problem should this proposal address?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-capability
+    attributes:
+      label: Proposed capability
+      description: Describe the requested capability or change.
+    validations:
+      required: true
+  - type: dropdown
+    id: requested-status
+    attributes:
+      label: Requested status distinction
+      description: Select the status that best describes the request. This does not approve or establish the status.
+      options:
+        - Proposal
+        - Design
+        - Simulation
+        - Implementation
+    validations:
+      required: true
+  - type: textarea
+    id: goals
+    attributes:
+      label: Goals
+      description: List the intended outcomes.
+    validations:
+      required: true
+  - type: textarea
+    id: non-goals
+    attributes:
+      label: Non-goals
+      description: List work that should remain out of scope.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Describe other options and why they may not fit.
+    validations:
+      required: false
+  - type: textarea
+    id: expected-evidence
+    attributes:
+      label: Expected evidence
+      description: Describe what evidence would be needed before the change can be considered validated or implemented.
+    validations:
+      required: true
+  - type: textarea
+    id: security-impact
+    attributes:
+      label: Security impact
+      description: Describe possible security risks, controls, or review needs. Do not include sensitive details.
+    validations:
+      required: true
+  - type: textarea
+    id: cost-impact
+    attributes:
+      label: Cost impact
+      description: Describe whether the proposal could create cloud, tooling, storage, compute, or operational cost.
+    validations:
+      required: true
+  - type: textarea
+    id: operational-impact
+    attributes:
+      label: Operational impact
+      description: Describe maintenance, validation, support, rollback, or reliability considerations.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: List related documents, ADRs, tools, workflows, labs, or external dependencies.
+    validations:
+      required: false
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation checklist
+      options:
+        - label: I understand this request is a proposal and is not automatically approved.
+          required: true
+        - label: I have distinguished proposal, design, simulation, and implementation status where relevant.
+          required: true
+        - label: I have described expected evidence for validation or implementation.
+          required: true
+        - label: I have not included secrets, credentials, customer data, personal data, or sensitive vulnerability details.
+          required: true
