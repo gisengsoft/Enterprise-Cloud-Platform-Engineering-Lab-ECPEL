@@ -2,9 +2,8 @@ name: Terraform Local Foundation Validation
 
 on:
   pull_request:
-    paths:
-      - labs/terraform-local-foundation/**
-      - .github/workflows/terraform-local-foundation.yml
+    branches:
+      - main
   push:
     branches:
       - main
