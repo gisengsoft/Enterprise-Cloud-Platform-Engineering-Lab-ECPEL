@@ -4,7 +4,7 @@
 
 Status: **Simulated**.
 
-This lab is a local-only simulation and learning exercise. It is not marked **Validated** or **Implemented** because Terraform was not available in the execution environment used to create this PR. It is not cloud infrastructure and is not evidence that Terraform has been adopted as the repository's primary implemented Infrastructure as Code tool. See [evidence](evidence/README.md).
+This lab is a local-only simulation and learning exercise. Its Terraform configuration has passed automated GitHub Actions validation with Terraform 1.6.0 and Terraform 1.15.8. The lab remains classified as **Simulated** because it does not provision cloud infrastructure, does not represent a production environment, and does not establish Terraform as ECPEL's primary Infrastructure as Code tool. See [evidence](evidence/README.md).
 
 ## Purpose
 
@@ -34,7 +34,8 @@ This lab is local-only. It models lab metadata and naming conventions through Te
 - AWS provisioning.
 - Remote state.
 - Production use.
-- CI/CD.
+- Application delivery and deployment pipelines.
+- Cloud deployment automation.
 - Cloud credentials.
 - Persistent infrastructure.
 - Cost-generating resources.
@@ -117,7 +118,7 @@ terraform test -no-color
 terraform plan -input=false -lock=false -no-color
 ```
 
-The workflow does not run `terraform apply` or `terraform destroy`, does not require cloud credentials, does not configure remote state, and does not authenticate to any cloud provider. A workflow definition alone is not validation evidence; the lab status must remain **Simulated** until a real successful GitHub Actions workflow run provides evidence for changing that status.
+The workflow does not run `terraform apply` or `terraform destroy`, does not require cloud credentials, does not configure remote state, and does not authenticate to any cloud provider. A workflow definition alone is not validation evidence. Successful GitHub Actions executions are recorded in [evidence/README.md](evidence/README.md). Automated validation confirms the local Terraform configuration, but it does not change the lab from **Simulated** to **Implemented** and does not prove that cloud infrastructure exists.
 
 ## Cleanup
 
