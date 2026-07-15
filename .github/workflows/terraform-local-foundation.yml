@@ -1,0 +1,69 @@
+name: Terraform Local Foundation Validation
+
+on:
+  pull_request:
+    paths:
+      - labs/terraform-local-foundation/**
+      - .github/workflows/terraform-local-foundation.yml
+  push:
+    branches:
+      - main
+    paths:
+      - labs/terraform-local-foundation/**
+      - .github/workflows/terraform-local-foundation.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: labs/terraform-local-foundation
+
+jobs:
+  terraform-local-foundation:
+    name: Terraform ${{ matrix.terraform-version }} local validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        terraform-version:
+          - 1.6.0
+          - 1.15.8
+
+    env:
+      TF_IN_AUTOMATION: true
+      CHECKPOINT_DISABLE: "1"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.0
+
+      - name: Set up Terraform ${{ matrix.terraform-version }}
+        uses: hashicorp/setup-terraform@v4.0.1
+        with:
+          terraform_version: ${{ matrix.terraform-version }}
+
+      - name: Show Terraform version
+        run: terraform version
+
+      - name: Check Terraform formatting
+        run: terraform fmt -check -recursive
+
+      - name: Initialize Terraform without backend
+        run: terraform init -backend=false -input=false
+
+      - name: Validate Terraform configuration
+        run: terraform validate -no-color
+
+      - name: Run Terraform tests
+        run: terraform test -no-color
+
+      - name: Create speculative Terraform plan
+        run: terraform plan -input=false -lock=false -no-color
