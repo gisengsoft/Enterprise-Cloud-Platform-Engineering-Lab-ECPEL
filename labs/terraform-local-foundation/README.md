@@ -8,7 +8,7 @@ This lab is a local-only simulation and learning exercise. It is not marked **Va
 
 ## Purpose
 
-This lab establishes a small, reproducible, local Terraform workflow before any cloud provisioning is introduced. It demonstrates Terraform language structure and validation concepts without using cloud providers, remote state, credentials, paid services, Kubernetes, Docker, or GitHub Actions.
+This lab establishes a small, reproducible, local Terraform workflow before any cloud provisioning is introduced. It demonstrates Terraform language structure and validation concepts without using cloud providers, remote state, credentials, paid services, Kubernetes, Docker, apply, or destroy operations.
 
 ## Learning Objectives
 
@@ -101,6 +101,24 @@ The validation commands prove:
 - native test behavior through `terraform test`;
 - plan behavior through `terraform plan -input=false -lock=false`.
 
+
+## Automated GitHub Actions Validation
+
+The Terraform Local Foundation Validation workflow is defined at `../../../.github/workflows/terraform-local-foundation.yml`. It runs for pull requests that change this lab or the workflow, pushes to the default branch that change this lab or the workflow, and manual `workflow_dispatch` runs.
+
+The workflow uses an explicit Terraform version matrix for the minimum supported version, `1.6.0`, and the current stable Terraform release verified during implementation, `1.15.8`. For each matrix entry, Terraform commands run from this lab directory in the following order:
+
+```text
+terraform version
+terraform fmt -check -recursive
+terraform init -backend=false -input=false
+terraform validate -no-color
+terraform test -no-color
+terraform plan -input=false -lock=false -no-color
+```
+
+The workflow does not run `terraform apply` or `terraform destroy`, does not require cloud credentials, does not configure remote state, and does not authenticate to any cloud provider. A workflow definition alone is not validation evidence; the lab status must remain **Simulated** until a real successful GitHub Actions workflow run provides evidence for changing that status.
+
 ## Cleanup
 
 Generated files should not be committed.
@@ -108,7 +126,6 @@ Generated files should not be committed.
 Safe cleanup targets include:
 
 - delete `.terraform/` from this lab directory if initialization creates it;
-- delete `/tmp/ecpel-pr008.tfplan` if a plan file is created;
 - delete local `terraform.tfstate` or `terraform.tfstate.backup` files if any are generated during experimentation.
 
 Do not use destructive wildcard cleanup commands.

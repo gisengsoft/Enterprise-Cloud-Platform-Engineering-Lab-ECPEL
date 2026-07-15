@@ -26,7 +26,7 @@ This evidence record tracks validation for the Terraform Local Foundation Lab, w
 | Initialization | `terraform init -backend=false -input=false` | Not Run | Not executed because Terraform CLI was unavailable. |
 | Validation | `terraform validate` | Not Run | Not executed because Terraform CLI was unavailable. |
 | Test | `terraform test` | Not Run | Native test file is present, but tests were not executed because Terraform CLI was unavailable. |
-| Plan | `terraform plan -input=false -lock=false -out=/tmp/ecpel-pr008.tfplan` | Not Run | Not executed because Terraform CLI was unavailable. |
+| Plan | `terraform plan -input=false -lock=false -no-color` | Not Run | Not executed because Terraform CLI was unavailable. |
 
 ## Limitations
 
@@ -41,3 +41,20 @@ No Terraform-generated files were created during validation because Terraform wa
 ## Cloud Provisioning Confirmation
 
 No cloud provider is configured by this lab, no cloud authentication was attempted, and no cloud resources were provisioned.
+
+## Automated Validation
+
+Status: **Pending**.
+
+The automated validation workflow is defined at `../../../.github/workflows/terraform-local-foundation.yml`. It is intended to run the following checks for the Terraform Local Foundation Lab:
+
+- `terraform version`
+- `terraform fmt -check -recursive`
+- `terraform init -backend=false -input=false`
+- `terraform validate -no-color`
+- `terraform test -no-color`
+- `terraform plan -input=false -lock=false -no-color`
+
+The first GitHub Actions result is pending. Terraform checks must not be marked **Passed** until a real workflow run succeeds and provides evidence. Until then, use **Pending** or **Not Run** for automated validation results.
+
+The lab remains **Simulated**. No cloud resources are provisioned, no cloud credentials are required, and the workflow does not execute `terraform apply` or `terraform destroy`.
