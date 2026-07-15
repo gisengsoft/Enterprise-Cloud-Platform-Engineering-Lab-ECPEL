@@ -2,13 +2,15 @@
 
 ## Status
 
-Designed — validation pending
+Validated
 
 ## Purpose
 
 This development container defines a minimal, reproducible Ubuntu-based environment for working on ECPEL in GitHub Codespaces or VS Code Dev Containers. It supports repository editing, Git and GitHub CLI workflows, Markdown authoring, and the existing Terraform Local Foundation Lab.
 
 The environment is intentionally local-development focused. It does not configure cloud deployment tools, cloud credentials, remote state, or cloud provider authentication.
+
+A real GitHub Codespace was successfully created from the Pull Request #4 branch, and the configured development container built successfully. Terraform, Git, and GitHub CLI were available in that Codespace, and the documented Terraform validation commands succeeded. This validates the development environment only: the Terraform Local Foundation Lab remains classified as **Simulated**, no cloud infrastructure was implemented, and no cloud deployment capability was validated.
 
 ## Included Tools
 
@@ -85,4 +87,4 @@ Validation evidence is tracked in [evidence/README.md](evidence/README.md).
 
 ## Limitations
 
-The configuration file alone is not evidence of a successful Codespaces build. The environment remains Designed — validation pending until a real Codespace is created, builds successfully, and the documented validation commands are executed with recorded results.
+The configuration file alone is not evidence of a successful Codespaces build. This environment is marked Validated because a real Codespace was created, the development container built successfully, and the documented validation commands executed with recorded results. Development-container validation does not prove production readiness, implemented cloud infrastructure, or validated cloud deployment capability.
