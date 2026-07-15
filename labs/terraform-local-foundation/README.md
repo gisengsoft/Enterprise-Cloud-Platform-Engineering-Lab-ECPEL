@@ -105,7 +105,7 @@ The validation commands prove:
 
 ## Automated GitHub Actions Validation
 
-The Terraform Local Foundation Validation workflow is defined at `../../../.github/workflows/terraform-local-foundation.yml`. It runs for pull requests that change this lab or the workflow, pushes to the default branch that change this lab or the workflow, and manual `workflow_dispatch` runs.
+The Terraform Local Foundation Validation workflow is defined at `../../../.github/workflows/terraform-local-foundation.yml`. It runs for every Pull Request targeting `main`, creating a consistent repository regression gate even when a Pull Request does not modify Terraform files. Pushes to `main` run the workflow when this Terraform lab or the workflow changes, and manual `workflow_dispatch` runs remain supported. This universal Pull Request validation does not change the lab status from **Simulated** and does not establish Terraform as ECPEL's primary Infrastructure as Code tool. The workflow never runs `terraform apply` or `terraform destroy`.
 
 The workflow uses an explicit Terraform version matrix for the minimum supported version, `1.6.0`, and the current stable Terraform release verified during implementation, `1.15.8`. For each matrix entry, Terraform commands run from this lab directory in the following order:
 
