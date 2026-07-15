@@ -1,0 +1,5 @@
+project_name = "ecpel"
+environment  = "dev"
+owner        = "platform-team"
+cost_center  = "learning"
+managed_by   = "terraform"
