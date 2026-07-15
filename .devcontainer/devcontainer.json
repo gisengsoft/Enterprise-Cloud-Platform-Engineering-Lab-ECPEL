@@ -1,0 +1,24 @@
+{
+  "name": "ECPEL Development Container",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/terraform:1": {
+      "version": "1.15.8"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "remoteUser": "vscode",
+  "containerEnv": {
+    "TF_IN_AUTOMATION": "true",
+    "CHECKPOINT_DISABLE": "1"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "hashicorp.terraform",
+        "davidanson.vscode-markdownlint"
+      ]
+    }
+  },
+  "postCreateCommand": "terraform version && git --version && gh --version"
+}
