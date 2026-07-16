@@ -6,6 +6,7 @@ This document records notable repository changes. Its structure is compatible wi
 
 ### Added
 
+- Adopted the Apache License, Version 2.0, through a root `LICENSE` file and added the root `NOTICE` attribution file.
 - Repository contributing guide covering scope, workflow, status terminology, validation, security, cost awareness, documentation standards, and contributor checklist.
 - Security policy defining reporting guidance, sensitive information boundaries, response expectations, and security limitations.
 - Project-specific Code of Conduct for respectful, evidence-based collaboration.
