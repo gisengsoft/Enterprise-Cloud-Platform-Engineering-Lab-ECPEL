@@ -26,10 +26,10 @@ body:
       label: Requested status distinction
       description: Select the status that best describes the request. This does not approve or establish the status.
       options:
-        - Proposal
-        - Design
-        - Simulation
-        - Implementation
+        - Proposed
+        - Designed
+        - Simulated
+        - Implemented
     validations:
       required: true
   - type: textarea
@@ -95,7 +95,7 @@ body:
       options:
         - label: I understand this request is a proposal and is not automatically approved.
           required: true
-        - label: I have distinguished proposal, design, simulation, and implementation status where relevant.
+        - label: I have distinguished Proposed, Designed, Simulated, and Implemented status where relevant.
           required: true
         - label: I have described expected evidence for validation or implementation.
           required: true
