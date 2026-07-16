@@ -8,7 +8,7 @@ ECPEL is a learning and portfolio repository for designing an enterprise-grade c
 
 This repository is the project foundation for an enterprise cloud platform engineering lab. It is organized around the disciplines commonly required to design, govern, operate, and evolve a cloud platform, including architecture, market analysis, platform domains, runbooks, playbooks, security, compliance, FinOps, and delivery workflows.
 
-At the current stage, ECPEL is documentation-first. It does not include implemented cloud infrastructure, deployed services, production automation, or completed labs. The repository does include one local-only simulated Terraform learning lab, but that lab is not validated, is not production infrastructure, and does not provision cloud resources. Any future capability must be backed by files, decisions, tests, and documentation in this repository before it is described as implemented.
+At the current stage, ECPEL is documentation-first. It does not include implemented cloud infrastructure, deployed services, production automation, or completed labs. The repository includes one local-only simulated Terraform learning lab. Its Terraform configuration has passed automated GitHub Actions validation with Terraform 1.6.0 and Terraform 1.15.8. The lab remains classified as **Simulated**, is not production infrastructure, and does not provision cloud resources. Any future capability must be backed by files, decisions, tests, and documentation in this repository before it is described as implemented.
 
 ## Vision
 
@@ -99,7 +99,14 @@ Supporting project files:
 - [Blueprint](BLUEPRINT.md)
 - [Roadmap](ROADMAP.md)
 
-Planned governance documents such as contributing guidance, security policy, code of conduct, changelog, and license text have not yet been authored. Empty placeholder files were intentionally removed rather than presented as completed documents.
+Governance documents now provide repository contribution and review expectations:
+
+- [Contributing guide](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Changelog](CHANGELOG.md)
+
+License selection remains intentionally separate from governance documentation.
 
 ## Roadmap
 
@@ -161,8 +168,10 @@ Current evidence in the repository supports the following statements:
 - The repository structure exists.
 - Documentation entry points exist for architecture, roadmap, blueprint, ADRs, diagrams, operational templates, compliance, market analysis, and labs.
 - One local-only simulated Terraform learning lab exists.
+- A GitHub Actions workflow validates the local Terraform lab for every Pull Request targeting `main` and for relevant pushes or manual runs.
+- The workflow is a repository regression gate and is not production deployment automation.
+- A validated development container exists for GitHub Codespaces and VS Code Dev Containers.
 - No cloud or platform infrastructure is implemented.
-- No workflows are implemented.
 - No executable utility scripts are present.
 - No cloud resources are provisioned by this repository.
 - No production capability should be considered implemented yet.
@@ -189,7 +198,7 @@ Before adding or changing content:
 4. Include operational, security, and cost considerations when proposing platform capabilities.
 5. Prefer small, reviewable changes with clear evidence.
 
-A dedicated contributing guide has not yet been authored. Until one exists, contributions should be reviewed against this README, the roadmap, ADRs, and the governing principle: **No evidence, no implementation.**
+See the [Contributing guide](CONTRIBUTING.md) for contribution workflow, Pull Request expectations, validation guidance, status terminology, security requirements, cost awareness, and documentation standards.
 
 ## License
 

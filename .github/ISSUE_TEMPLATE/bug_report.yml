@@ -1,0 +1,85 @@
+name: Bug report
+description: Report a reproducible problem in repository content, validation, documentation, or lab behavior.
+title: "bug: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a problem. Do not submit secrets, credentials, customer data, personal data, or sensitive vulnerability details in this public form. Security vulnerabilities and sensitive findings must not be submitted publicly; use private vulnerability reporting when available or open a minimal public issue without sensitive details to request a private communication channel.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Problem summary
+      description: Summarize the problem clearly.
+      placeholder: Describe the observed issue.
+    validations:
+      required: true
+  - type: input
+    id: affected-path
+    attributes:
+      label: Affected repository path
+      description: Identify the file, directory, workflow, or lab path involved.
+      placeholder: README.md, labs/terraform-local-foundation/README.md, .github/workflows/terraform-local-foundation.yml
+    validations:
+      required: true
+  - type: textarea
+    id: current-behavior
+    attributes:
+      label: Current behavior
+      description: Describe what currently happens.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: Describe what should happen instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Reproduction steps
+      description: Provide the smallest reproducible steps. Do not include secrets or sensitive details.
+      placeholder: |
+        1. Open ...
+        2. Run ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment information
+      description: Provide relevant local tool versions, operating system, browser, or GitHub Actions context. Do not include account IDs or credentials.
+    validations:
+      required: false
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence or logs
+      description: Provide non-sensitive evidence, logs, screenshots, or links that support the report. Redact sensitive values before submission.
+    validations:
+      required: false
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Explain who or what is affected and whether the issue blocks validation, documentation, or lab use.
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        Security warning: do not include exploitable vulnerability details, credentials, tokens, private keys, customer data, personal data, or internal infrastructure details in this public issue.
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation checklist
+      options:
+        - label: I have not included secrets, credentials, tokens, private keys, customer data, personal data, or sensitive vulnerability details.
+          required: true
+        - label: I have provided enough non-sensitive evidence for maintainers to understand the issue.
+          required: true
+        - label: I understand that submitting this issue does not guarantee a specific response or remediation time.
+          required: true
