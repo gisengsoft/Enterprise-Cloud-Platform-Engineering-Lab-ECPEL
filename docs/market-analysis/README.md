@@ -1,11 +1,16 @@
 # Market Analysis
 
-This directory contains the market-analysis entry point for ECPEL. Current content is a planned placeholder structure, not completed market evidence.
+This directory contains evidence-based market and technology analysis used to inform future ECPEL Architecture Decision Records and implementation sequencing.
 
 ## Documents
 
-- [2026 Cloud Market Matrix placeholder](2026-cloud-market-matrix.md)
+- [2026 Cloud Market Matrix](2026-cloud-market-matrix.md)
+- [Roadmap Derived from the Market Matrix](roadmap-from-market.md)
 
-## Status
+## Evidence Boundary
 
-The current market matrix is a placeholder artifact, not a completed vendor analysis. Future market analysis content should distinguish between documented evidence, interpretation, and recommendations. Do not present research conclusions as implementation evidence.
+Market analysis records researched facts, ECPEL analysis, recommendations, risks, and limitations.
+
+It does not establish provider or tool adoption and does not classify infrastructure as implemented.
+
+> No evidence, no implementation.
