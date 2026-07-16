@@ -202,4 +202,8 @@ See the [Contributing guide](CONTRIBUTING.md) for contribution workflow, Pull Re
 
 ## License
 
-No license has been selected yet. Until a license file with explicit terms is added, reuse rights are not established by this repository.
+Unless otherwise noted, the contents of this repository are licensed under the Apache License, Version 2.0.
+
+See [LICENSE](LICENSE) for the complete license terms and [NOTICE](NOTICE) for copyright attribution.
+
+Copyright 2026 Gilson Inácio da Silva (gisengsoft).
