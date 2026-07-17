@@ -33,15 +33,20 @@ The long-term vision is a platform that provides:
 
 ## Current Repository Evidence
 
-The repository currently provides documentation and directory foundations only. The presence of a platform domain directory or document name is not evidence of implementation.
+The repository currently provides documentation, research, diagrams, ADRs, validated local tooling evidence, and one simulated local lab. Planned `platform/**` paths represent target-domain documentation or future implementation locations; no `platform/` directory is currently versioned, and the existence of a planned path is not implementation evidence.
 
 Current evidence supports only these architectural statements:
 
 - ECPEL has a root project README that defines an evidence-first repository philosophy.
 - ECPEL has documentation entry points under [docs](docs/README.md).
-- ECPEL has platform domain directories under `platform/`.
-- ECPEL has placeholder locations for ADRs, diagrams, runbooks, playbooks, and market analysis.
-- ECPEL does not currently contain implemented infrastructure, deployed cloud resources, executable automation, or working platform services.
+- ECPEL has substantive ADRs recorded under [docs/adr](docs/adr/README.md), including current deferral ADRs for cloud strategy, GitOps strategy, and primary IaC tool selection.
+- ECPEL has version-controlled diagram documents under [docs/diagrams](docs/diagrams/README.md).
+- ECPEL has completed market-analysis research artifacts under [docs/market-analysis](docs/market-analysis/README.md), including the 2026 Cloud Market Matrix and its derived roadmap.
+- ECPEL has one local-only Terraform learning lab under [labs/terraform-local-foundation](labs/terraform-local-foundation/README.md), classified as **Simulated**.
+- The simulated Terraform lab contains local Terraform configuration and a local naming module, but it provisions no cloud resources and does not adopt Terraform as the primary implemented IaC tool.
+- ECPEL has a non-destructive GitHub Actions workflow that validates the simulated Terraform lab as a repository regression gate; it is not production deployment automation.
+- ECPEL has a **Validated** development container for GitHub Codespaces and VS Code Dev Containers.
+- ECPEL does not currently contain implemented cloud infrastructure, deployed cloud resources, production deployment automation, GitOps automation, or working platform services.
 
 ## Architecture Principles
 
@@ -94,7 +99,7 @@ The target architecture is organized into platform domains. These domains are ar
 - region strategy;
 - lifecycle of accounts and environments.
 
-**Repository locations:**
+**Planned target locations:**
 
 - `platform/aws-organizations/README.md`
 - `platform/landing-zone/README.md`
@@ -115,7 +120,7 @@ The target architecture is organized into platform domains. These domains are ar
 - machine identity;
 - auditability and access reviews.
 
-**Repository locations:**
+**Planned target locations:**
 
 - `platform/identity-center/README.md`
 - `docs/runbooks/identity-center.md`
@@ -135,7 +140,7 @@ The target architecture is organized into platform domains. These domains are ar
 - network observability;
 - shared versus workload-owned networking.
 
-**Repository locations:**
+**Planned target locations:**
 
 - `platform/networking/README.md`
 - `docs/diagrams/network.mmd`
@@ -155,7 +160,7 @@ The target architecture is organized into platform domains. These domains are ar
 - threat modeling;
 - incident response integration.
 
-**Repository locations:**
+**Planned target locations:**
 
 - `SECURITY.md`
 - `platform/security/README.md`
@@ -178,7 +183,7 @@ The target architecture is organized into platform domains. These domains are ar
 - rollback procedures;
 - destructive action safeguards.
 
-**Repository locations:**
+**Planned target locations:**
 
 - `platform/terraform/README.md`
 - `docs/runbooks/terraform.md`
@@ -201,11 +206,11 @@ The target architecture is organized into platform domains. These domains are ar
 - rollback and progressive delivery;
 - ownership between platform and application teams.
 
-**Repository locations:**
+**Planned target locations:**
 
 - `platform/gitops/README.md`
 - `platform/devsecops/README.md`
-- `docs/adr/0003-gitops-strategy.md`
+- `docs/adr/0003-defer-gitops-strategy-decision.md`
 - `.github/workflows/ci.yml`
 - `.github/workflows/release.yml`
 
@@ -224,7 +229,7 @@ The target architecture is organized into platform domains. These domains are ar
 - runtime security;
 - ownership and support model.
 
-**Repository locations:**
+**Planned target locations:**
 
 - `platform/eks/README.md`
 - `platform/ecs/README.md`
@@ -246,7 +251,7 @@ The target architecture is organized into platform domains. These domains are ar
 - operational dashboards;
 - runbook ownership.
 
-**Repository locations:**
+**Planned target locations:**
 
 - `platform/observability/README.md`
 - `platform/incidents/README.md`
@@ -269,7 +274,7 @@ The target architecture is organized into platform domains. These domains are ar
 - unit economics;
 - cost reporting automation.
 
-**Repository locations:**
+**Planned target locations:**
 
 - `platform/finops/README.md`
 - `scripts/cost-report.sh`
@@ -288,7 +293,7 @@ The target architecture is organized into platform domains. These domains are ar
 - internal service catalog;
 - support and escalation paths.
 
-**Repository locations:**
+**Planned target locations:**
 
 - `platform/github-enterprise/README.md`
 - `platform/sonarqube-enterprise/README.md`
@@ -309,7 +314,7 @@ The target architecture is organized into platform domains. These domains are ar
 - agent safety and observability;
 - cost and capacity management for AI workloads.
 
-**Repository locations:**
+**Planned target locations:**
 
 - `platform/mlops/README.md`
 - `platform/ai-platform/README.md`
@@ -332,13 +337,14 @@ The target architecture may cover:
 
 ### Out of scope until evidence exists
 
-The following are out of scope as implemented capabilities until the repository contains evidence:
+The following remain out of scope as implemented capabilities until the repository contains evidence beyond current documentation, research, local simulation, and regression validation:
 
 - provisioned cloud accounts or resources;
-- working Terraform modules;
-- deployed EKS or ECS platforms;
+- cloud provisioning modules;
+- cloud deployment workflows;
+- deployed ECS or EKS platforms;
 - active GitOps controllers;
-- functioning CI/CD workflows;
+- production deployment, release, or GitOps automation;
 - implemented security scanners;
 - production incident response processes;
 - operating FinOps reports;
@@ -368,7 +374,7 @@ Future architecture work should distinguish between several control planes:
 5. **Operations control plane** — telemetry, alerting, incident response, runbooks, and postmortems.
 6. **Financial control plane** — budgets, tagging, cost allocation, reporting, and optimization.
 
-These control planes are conceptual architecture boundaries. They are not currently implemented.
+These control planes are conceptual architecture boundaries. The repository has a non-destructive Terraform lab validation workflow, but no production delivery, GitOps, release, cloud provisioning, or cloud deployment control plane is currently implemented.
 
 ## Documentation Model
 
@@ -403,7 +409,7 @@ Architecture should evolve in deliberate stages.
 ### Stage 3 — Validation model
 
 - Define how proposed architecture will be reviewed.
-- Establish link checks, documentation checks, and future infrastructure validation checks.
+- Establish link checks, documentation checks, and future infrastructure validation checks; preserve the existing non-destructive Terraform lab regression workflow as local simulation validation only.
 - Define acceptance criteria for moving from target design to implementation.
 
 ### Stage 4 — Evidence-backed implementation
@@ -434,11 +440,12 @@ Future ADRs should be used for decisions such as:
 - FinOps tagging and reporting model;
 - AI and MLOps governance boundaries.
 
-Existing ADR placeholder locations include:
+Existing ADR references include:
 
 - `docs/adr/0001-record-architecture-decisions.md`
-- `docs/adr/0002-cloud-provider.md`
-- `docs/adr/0003-gitops-strategy.md`
+- `docs/adr/0002-defer-primary-implementation-cloud-decision.md`
+- `docs/adr/0003-defer-gitops-strategy-decision.md`
+- `docs/adr/0006-defer-primary-infrastructure-as-code-tool-decision.md`
 
 ## Risks and Open Questions
 
@@ -446,9 +453,9 @@ Known architecture risks at this foundation stage:
 
 - The repository contains many named domains with limited content, which can create a false impression of maturity.
 - Security, compliance, and cost controls are not yet defined.
-- Workflows and scripts exist as file locations but do not implement automation.
-- Platform boundaries are conceptual and need validation through ADRs and diagrams.
-- The license text is not defined, which affects reuse and contribution clarity.
+- Planned workflow and script paths should not be read as current production automation; the existing Terraform lab workflow is only a non-destructive repository regression-validation gate.
+- Platform boundaries are conceptual and need continued validation through ADRs and diagrams.
+- The repository uses Apache License 2.0; [LICENSE](LICENSE) contains the license terms and [NOTICE](NOTICE) contains project attribution.
 
 Open questions for future architecture work:
 

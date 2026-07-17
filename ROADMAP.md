@@ -86,7 +86,7 @@ At the time this roadmap is introduced:
 - Cost automation: **Planned**
 - AI and MLOps platform capabilities: **Planned**
 
-No roadmap phase is currently marked **Implemented**.
+No roadmap phase is currently marked **Implemented**. Current provider and tooling boundaries are unchanged: Microsoft Azure is not adopted, AWS is not adopted, Google Cloud is not adopted, no cloud provider is adopted, no primary IaC tool is adopted, the Terraform local lab remains **Simulated**, Terraform validation is not deployment automation, and no cloud infrastructure is implemented.
 
 ## 5. Dependency Rules
 
@@ -149,6 +149,8 @@ Establish ECPEL as an evidence-first repository with clear project purpose, arch
 - [ROADMAP.md](ROADMAP.md) defines maturity, dependencies, and phase progression.
 - [docs/README.md](docs/README.md) provides documentation navigation.
 - [docs/market-analysis/README.md](docs/market-analysis/README.md) provides market-analysis navigation.
+- [docs/market-analysis/2026-cloud-market-matrix.md](docs/market-analysis/2026-cloud-market-matrix.md) exists as a completed research artifact.
+- [docs/market-analysis/roadmap-from-market.md](docs/market-analysis/roadmap-from-market.md) exists as a roadmap derived from the market analysis.
 
 #### Dependencies
 
@@ -167,7 +169,7 @@ Establish ECPEL as an evidence-first repository with clear project purpose, arch
 - Target architecture document.
 - Roadmap document.
 - Documentation index.
-- Initial market-analysis document location.
+- Completed market-analysis research artifact and derived roadmap location.
 
 ### Phase 1 — Operational Fundamentals
 
@@ -233,7 +235,7 @@ Create safe local validation tooling before infrastructure or deployment automat
 
 #### Expected evidence
 
-- Implemented `scripts/validate.sh` with non-destructive checks.
+- Create and validate `scripts/validate.sh` with non-destructive checks before completing the phase.
 - Documented validation usage in README or docs.
 - Validation rules for Markdown links and formatting.
 - Optional local-only helper scripts clearly labeled as local validation.
@@ -279,8 +281,8 @@ Design and eventually introduce Terraform foundations for infrastructure-as-code
 #### Expected evidence
 
 - ADR for Terraform state and environment strategy.
-- Completed `platform/terraform/README.md`.
-- Completed `docs/runbooks/terraform.md`.
+- Expected exit artifact: `platform/terraform/README.md`.
+- Expected exit artifact: `docs/runbooks/terraform.md`.
 - Terraform validation documented before apply automation exists.
 - Future Terraform files only after design and validation standards are documented.
 
@@ -310,7 +312,7 @@ Design and eventually introduce Terraform foundations for infrastructure-as-code
 
 #### Objective
 
-Define the target AWS account, identity, and networking architecture before any cloud resources are claimed as implemented.
+Maintain this AWS reference-planning track for target account, identity, and networking architecture before any cloud resources are claimed as implemented; the track remains conditional on a future accepted cloud-strategy ADR and does not adopt AWS.
 
 #### Scope
 
@@ -325,12 +327,12 @@ Define the target AWS account, identity, and networking architecture before any 
 #### Expected evidence
 
 - ADR for cloud provider and account strategy.
-- Completed `platform/aws-organizations/README.md`.
-- Completed `platform/landing-zone/README.md`.
-- Completed `platform/identity-center/README.md`.
-- Completed `platform/networking/README.md`.
-- Completed `docs/diagrams/aws-organizations.mmd` and `docs/diagrams/network.mmd` if diagrams are used.
-- Completed `docs/runbooks/identity-center.md`.
+- Expected exit artifact: `platform/aws-organizations/README.md`.
+- Expected exit artifact: `platform/landing-zone/README.md`.
+- Expected exit artifact: `platform/identity-center/README.md`.
+- Expected exit artifact: `platform/networking/README.md`.
+- Expected future diagrams: `docs/diagrams/aws-organizations.mmd` and `docs/diagrams/network.mmd` if diagrams are used.
+- Expected exit artifact: `docs/runbooks/identity-center.md`.
 
 #### Dependencies
 
@@ -373,18 +375,18 @@ Establish baseline controls for security, cost, observability, and operations be
 #### Expected evidence
 
 - Completed `SECURITY.md`.
-- Completed `platform/security/README.md`.
-- Completed `platform/compliance/README.md`.
+- Expected exit artifact: `platform/security/README.md`.
+- Expected exit artifact: `platform/compliance/README.md`.
 - Completed `docs/compliance/README.md`.
-- Completed `platform/finops/README.md`.
-- Completed `platform/observability/README.md`.
+- Expected exit artifact: `platform/finops/README.md`.
+- Expected exit artifact: `platform/observability/README.md`.
 - Initial cost-reporting design for `scripts/cost-report.sh` before implementation.
 
 #### Dependencies
 
 - Phase 1 operational fundamentals.
 - Phase 2 local validation.
-- Phase 4 target identity and networking decisions.
+- Phase 4 target identity and networking decisions, conditional on a future accepted cloud-strategy ADR.
 
 #### Exit criteria
 
@@ -408,7 +410,7 @@ Establish baseline controls for security, cost, observability, and operations be
 
 #### Objective
 
-Design and later validate an ECS-based application platform path for workloads where Kubernetes is not required.
+Preserve this ECS reference-planning track for workloads where Kubernetes is not required; the track remains conditional on a future accepted cloud-strategy ADR and does not adopt AWS or ECS.
 
 #### Scope
 
@@ -422,16 +424,16 @@ Design and later validate an ECS-based application platform path for workloads w
 
 #### Expected evidence
 
-- Completed `platform/ecs/README.md`.
-- Completed `docs/runbooks/ecs.md`.
-- ECS architecture diagrams if applicable.
+- Expected exit artifact: `platform/ecs/README.md`.
+- Expected exit artifact: `docs/runbooks/ecs.md`.
+- Future ECS architecture diagrams if applicable.
 - ADR describing when ECS is preferred over other runtime options.
 - Future implementation artifacts only after Terraform, identity, networking, security, and cost baselines are ready.
 
 #### Dependencies
 
 - Phase 3 Terraform foundation.
-- Phase 4 AWS networking and identity.
+- Phase 4 AWS networking and identity reference-planning track, conditional on a future accepted cloud-strategy ADR.
 - Phase 5 security, cost, and operations baseline.
 
 #### Exit criteria
@@ -468,11 +470,11 @@ Define and later implement safe delivery workflows for documentation, infrastruc
 
 #### Expected evidence
 
-- Completed `.github/workflows/ci.yml` when CI is implemented.
-- Completed `.github/workflows/release.yml` when release automation is implemented.
-- Completed `.github/workflows/security.yml` when security automation is implemented.
-- Completed `.github/workflows/terraform.yml` when Terraform automation is implemented.
-- Completed `platform/devsecops/README.md`.
+- Expected future workflow: `.github/workflows/ci.yml` when CI is implemented.
+- Expected future workflow: `.github/workflows/release.yml` when release automation is implemented.
+- Expected future workflow: `.github/workflows/security.yml` when security automation is implemented.
+- Expected future workflow: `.github/workflows/terraform.yml` when Terraform automation is implemented.
+- Expected exit artifact: `platform/devsecops/README.md`.
 - Documentation of workflow permissions and secrets handling.
 
 #### Dependencies
@@ -501,7 +503,7 @@ Define and later implement safe delivery workflows for documentation, infrastruc
 
 #### Objective
 
-Design and later validate a Kubernetes/EKS platform path for workloads requiring Kubernetes capabilities.
+Preserve this Kubernetes/EKS reference-planning track for workloads requiring Kubernetes capabilities; the track remains conditional on a future accepted cloud-strategy ADR and does not adopt AWS, EKS, or Kubernetes.
 
 #### Scope
 
@@ -516,16 +518,16 @@ Design and later validate a Kubernetes/EKS platform path for workloads requiring
 
 #### Expected evidence
 
-- Completed `platform/eks/README.md`.
-- Completed `docs/runbooks/eks.md`.
-- EKS architecture diagrams if applicable.
+- Expected exit artifact: `platform/eks/README.md`.
+- Expected exit artifact: `docs/runbooks/eks.md`.
+- Future EKS architecture diagrams if applicable.
 - ADR for Kubernetes/EKS selection and cluster strategy.
 - Future manifests, Helm charts, or Terraform artifacts only after earlier dependencies are met.
 
 #### Dependencies
 
 - Phase 3 Terraform foundation.
-- Phase 4 AWS networking and identity.
+- Phase 4 AWS networking and identity reference-planning track, conditional on a future accepted cloud-strategy ADR.
 - Phase 5 security, cost, and operations baseline.
 - Phase 7 CI/CD and DevSecOps for safe delivery path.
 
@@ -563,9 +565,9 @@ Define the GitOps operating model and platform product practices that govern how
 
 #### Expected evidence
 
-- Completed `platform/gitops/README.md`.
-- Completed `docs/adr/0003-gitops-strategy.md`.
-- Completed `platform/shared/README.md` if shared platform patterns are introduced.
+- Expected exit artifact: `platform/gitops/README.md`.
+- Required future ADR resolution: an accepted GitOps decision must supersede or otherwise resolve `docs/adr/0003-defer-gitops-strategy-decision.md`.
+- Expected exit artifact: `platform/shared/README.md` if shared platform patterns are introduced.
 - GitOps workflow documentation.
 - Any GitOps tooling must be clearly documented and validated before implementation claims.
 
@@ -610,8 +612,8 @@ Develop reliability engineering practices for platform and workload operations.
 #### Expected evidence
 
 - Completed `docs/game-days/README.md`.
-- Completed `docs/game-days/game-day-001.md` and later game-day documents as exercises are designed.
-- Completed `docs/playbooks/disaster-recovery.md`.
+- Expected exit artifact: `docs/game-days/game-day-001.md` and later game-day documents as exercises are designed.
+- Expected exit artifact: `docs/playbooks/disaster-recovery.md`.
 - Completed `docs/playbooks/incident-response.md`.
 - Completed `docs/postmortems/README.md`.
 - Reliability model documented in `platform/observability/README.md` or related docs.
@@ -656,9 +658,9 @@ Advance cost management and governance beyond baseline documentation into measur
 
 #### Expected evidence
 
-- Completed `platform/finops/README.md` with advanced practices.
-- Implemented `scripts/cost-report.sh` only when it has real, documented behavior.
-- Completed `platform/cloud-governance/README.md`.
+- Expected exit artifact: `platform/finops/README.md` with advanced practices.
+- Create `scripts/cost-report.sh` only when it has real, documented behavior and validation evidence.
+- Expected exit artifact: `platform/cloud-governance/README.md`.
 - Governance metrics and reports when evidence exists.
 - Compliance mappings in `docs/compliance/README.md` or related documents.
 
@@ -702,10 +704,10 @@ Define enterprise administration practices for platform services, repositories, 
 
 #### Expected evidence
 
-- Completed `platform/github-enterprise/README.md`.
-- Completed `platform/sonarqube-enterprise/README.md`.
-- Completed `platform/enterprise-services/README.md`.
-- Completed `platform/shared/README.md`.
+- Expected exit artifact: `platform/github-enterprise/README.md`.
+- Expected exit artifact: `platform/sonarqube-enterprise/README.md`.
+- Expected exit artifact: `platform/enterprise-services/README.md`.
+- Expected exit artifact: `platform/shared/README.md`.
 - Runbooks for enterprise services when services are actually implemented.
 
 #### Dependencies
@@ -747,8 +749,8 @@ Define target architecture and governance boundaries for future AI platform capa
 
 #### Expected evidence
 
-- Completed `platform/ai-platform/README.md`.
-- Completed `platform/ai-agents/README.md` if agent patterns are documented.
+- Expected exit artifact: `platform/ai-platform/README.md`.
+- Expected exit artifact: `platform/ai-agents/README.md` if agent patterns are documented.
 - ADRs for AI platform boundaries and governance.
 - Cost and safety considerations documented before any AI service implementation.
 
@@ -792,7 +794,7 @@ Define lifecycle, reliability, and operational practices for ML and AI systems.
 
 #### Expected evidence
 
-- Completed `platform/mlops/README.md`.
+- Expected exit artifact: `platform/mlops/README.md`.
 - AI reliability documentation.
 - ADRs for MLOps lifecycle choices.
 - Runbooks or playbooks for AI/ML operations if implemented.

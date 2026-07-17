@@ -67,7 +67,7 @@ Future ECPEL designs should follow these principles:
 │   ├── compliance/          # Compliance documentation and evidence template
 │   ├── diagrams/            # Version-controlled diagram documents
 │   ├── game-days/           # Game-day guidance and template
-│   ├── market-analysis/     # Market-analysis index and planned matrix artifact
+│   ├── market-analysis/     # Completed 2026 Cloud Market Matrix, derived roadmap, and market-analysis index
 │   ├── playbooks/           # Operational playbook guidance and template
 │   ├── postmortems/         # Postmortem guidance and template
 │   ├── rfcs/                # Request-for-comments guidance and template
@@ -85,7 +85,8 @@ Primary documentation entry points:
 
 - [Documentation index](docs/README.md)
 - [Market analysis](docs/market-analysis/README.md)
-- [2026 Cloud Market Matrix placeholder](docs/market-analysis/2026-cloud-market-matrix.md)
+- [2026 Cloud Market Matrix research artifact](docs/market-analysis/2026-cloud-market-matrix.md)
+- [Roadmap from market analysis](docs/market-analysis/roadmap-from-market.md)
 - [Architecture Decision Records](docs/adr/README.md)
 - [Runbooks](docs/runbooks/README.md)
 - [Playbooks](docs/playbooks/README.md)
@@ -106,7 +107,7 @@ Governance documents now provide repository contribution and review expectations
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Changelog](CHANGELOG.md)
 
-License selection remains intentionally separate from governance documentation.
+The repository uses the Apache License 2.0; [LICENSE](LICENSE) contains the license terms and [NOTICE](NOTICE) contains project attribution.
 
 ## Roadmap
 
@@ -117,7 +118,7 @@ The roadmap is intentionally conservative. Items below describe intended maturit
 - Establish repository philosophy and documentation standards.
 - Create a clear README and documentation navigation.
 - Identify empty placeholders and avoid claiming implementation.
-- Add market analysis artifacts when evidence is available.
+- Maintain the completed market-analysis research artifacts and derived roadmap without treating research as implementation evidence.
 
 ### Stage 1 — Research and discovery
 
@@ -167,6 +168,7 @@ Current evidence in the repository supports the following statements:
 
 - The repository structure exists.
 - Documentation entry points exist for architecture, roadmap, blueprint, ADRs, diagrams, operational templates, compliance, market analysis, and labs.
+- Completed market-analysis research artifacts exist, including the 2026 Cloud Market Matrix and the derived market-analysis roadmap.
 - One local-only simulated Terraform learning lab exists.
 - A GitHub Actions workflow validates the local Terraform lab for every Pull Request targeting `main` and for relevant pushes or manual runs.
 - The workflow is a repository regression gate and is not production deployment automation.
