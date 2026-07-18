@@ -128,3 +128,4 @@ If an ADR changes the architecture, blueprint, or roadmap, update the affected d
 | [ADR-0004](0004-adopt-evidence-driven-implementation-rule.md) | Adopt Evidence-Driven Implementation Rule | Accepted | 2026-07-14 | None |
 | [ADR-0005](0005-sequence-ecs-before-eks-in-roadmap-planning.md) | Sequence ECS Before EKS in Roadmap Planning | Accepted | 2026-07-14 | None |
 | [ADR-0006](0006-defer-primary-infrastructure-as-code-tool-decision.md) | Defer Primary Infrastructure as Code Tool Decision | Accepted | 2026-07-14 | None |
+| [ADR-0007](0007-adopt-ecpel-as-platform-hub-with-independent-project-repositories.md) | Adopt ECPEL as Platform Hub with Independent Project Repositories | Accepted | 2026-07-18 | None |
