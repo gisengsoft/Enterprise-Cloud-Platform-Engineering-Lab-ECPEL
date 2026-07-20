@@ -1,0 +1,92 @@
+---
+- name: Cleanup ECPEL Ansible local foundation static design
+  hosts: ecpel_local_target
+  gather_facts: true
+  vars:
+    cleanup_unit_removed: false
+
+  pre_tasks:
+    - name: Require the approved inventory alias
+      ansible.builtin.assert:
+        that:
+          - inventory_hostname == 'ecpel_local_target'
+          - ansible_connection == 'local'
+        fail_msg: Cleanup is limited to the ecpel_local_target local inventory alias.
+
+  tasks:
+    - name: Include approved defaults
+      ansible.builtin.include_vars:
+        file: ../roles/local_foundation/defaults/main.yml
+
+    - name: Guard cleanup target identity
+      ansible.builtin.assert:
+        that:
+          - ansible_system == 'Linux'
+          - ansible_distribution == 'Ubuntu'
+          - ansible_distribution_version is version(local_foundation_ubuntu_version, '==')
+          - lookup('ansible.builtin.env', 'WSL_DISTRO_NAME') == local_foundation_wsl_distribution
+        fail_msg: Cleanup guardrails failed; no cleanup actions are approved for this target.
+
+    - name: Inspect lab marker
+      ansible.builtin.stat:
+        path: "{{ local_foundation_marker_path }}"
+      register: ecpel_marker
+
+    - name: Inspect validator unit
+      ansible.builtin.stat:
+        path: "{{ local_foundation_unit_path }}"
+      register: ecpel_unit
+
+    - name: Stop and disable approved validator unit
+      become: true
+      ansible.builtin.systemd_service:
+        name: "{{ local_foundation_unit_name }}"
+        state: stopped
+        enabled: false
+      when: ecpel_unit.stat.exists
+
+    - name: Remove approved validator unit
+      become: true
+      ansible.builtin.file:
+        path: "{{ local_foundation_unit_path }}"
+        state: absent
+      register: ecpel_unit_file
+      when: ecpel_unit.stat.exists
+
+    - name: Reload systemd after unit removal  # noqa: no-handler
+      become: true
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+      when: ecpel_unit_file is changed
+
+    - name: Remove approved configuration file
+      become: true
+      ansible.builtin.file:
+        path: "{{ local_foundation_config_path }}"
+        state: absent
+
+    - name: Remove approved lab directory
+      become: true
+      ansible.builtin.file:
+        path: "{{ local_foundation_lab_root }}"
+        state: absent
+
+    - name: Gather package facts before jq cleanup
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: Fail safely when marker exists but jq package state is unknown
+      ansible.builtin.assert:
+        that:
+          - local_foundation_package_name in ansible_facts.packages
+        fail_msg: Marker exists but jq package origin is unknown; refusing package removal.
+      when: ecpel_marker.stat.exists
+
+    - name: Remove jq only when the lab marker proves lab ownership
+      become: true
+      ansible.builtin.apt:
+        name: "{{ local_foundation_package_name }}"
+        state: absent
+      when:
+        - ecpel_marker.stat.exists
+        - local_foundation_package_name in ansible_facts.packages

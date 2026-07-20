@@ -1,0 +1,92 @@
+---
+- name: Guard approved inventory identity
+  ansible.builtin.assert:
+    that:
+      - inventory_hostname == local_foundation_target_alias
+      - ansible_connection == 'local'
+      - ansible_system == 'Linux'
+      - ansible_distribution == 'Ubuntu'
+      - ansible_distribution_version is version(local_foundation_ubuntu_version, '==')
+      - lookup('ansible.builtin.env', 'WSL_DISTRO_NAME') == local_foundation_wsl_distribution
+      - local_foundation_lab_classification == 'Simulated'
+    fail_msg: This role is approved only for the dedicated simulated local WSL2 target.
+
+- name: Gather installed package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Record initial jq state
+  ansible.builtin.set_fact:
+    local_foundation_jq_initially_present: "{{ local_foundation_package_name in ansible_facts.packages }}"
+
+- name: Create approved lab directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ local_foundation_lab_root }}"
+    state: directory
+    owner: "{{ local_foundation_directory_owner }}"
+    group: "{{ local_foundation_directory_group }}"
+    mode: "{{ local_foundation_directory_mode }}"
+
+- name: Install jq only when initially absent
+  become: true
+  ansible.builtin.apt:
+    name: "{{ local_foundation_package_name }}"
+    state: present
+    update_cache: true
+  when: not local_foundation_jq_initially_present
+
+- name: Create jq lab ownership marker only when this lab installs jq
+  become: true
+  ansible.builtin.file:
+    path: "{{ local_foundation_marker_path }}"
+    state: touch
+    owner: "{{ local_foundation_config_owner }}"
+    group: "{{ local_foundation_config_group }}"
+    mode: "{{ local_foundation_config_mode }}"
+  when: not local_foundation_jq_initially_present
+
+- name: Render deterministic simulated JSON configuration
+  become: true
+  ansible.builtin.template:
+    src: config.json.j2
+    dest: "{{ local_foundation_config_path }}"
+    owner: "{{ local_foundation_config_owner }}"
+    group: "{{ local_foundation_config_group }}"
+    mode: "{{ local_foundation_config_mode }}"
+  notify: Restart validator
+
+- name: Render approved systemd validator unit
+  become: true
+  ansible.builtin.template:
+    src: ecpel-ansible-local-foundation.service.j2
+    dest: "{{ local_foundation_unit_path }}"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload systemd units
+    - Restart validator
+
+- name: Enable and start validator service
+  become: true
+  ansible.builtin.systemd_service:
+    name: "{{ local_foundation_unit_name }}"
+    enabled: true
+    state: started
+    daemon_reload: true
+
+- name: Validate simulated configuration file state
+  become: true
+  ansible.builtin.stat:
+    path: "{{ local_foundation_config_path }}"
+  register: local_foundation_config_state
+
+- name: Assert simulated configuration file state
+  ansible.builtin.assert:
+    that:
+      - local_foundation_config_state.stat.exists
+      - local_foundation_config_state.stat.pw_name == local_foundation_config_owner
+      - local_foundation_config_state.stat.gr_name == local_foundation_config_group
+      - local_foundation_config_state.stat.mode == local_foundation_config_mode
+    fail_msg: The simulated configuration file does not match the approved state.

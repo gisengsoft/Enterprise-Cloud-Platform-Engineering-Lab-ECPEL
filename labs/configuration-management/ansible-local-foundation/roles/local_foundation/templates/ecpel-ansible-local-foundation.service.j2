@@ -1,0 +1,12 @@
+[Unit]
+Description=ECPEL Ansible Local Foundation simulated JSON validator
+Documentation=https://github.com/gisengsoft/Enterprise-Cloud-Platform-Engineering-Lab-ECPEL
+ConditionPathExists={{ local_foundation_config_path }}
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/jq --exit-status '.laboratory_identifier == "ecpel-ansible-local-foundation" and .classification == "Simulated" and .enabled == true and .cloud == false and .production == false and .external_workload == false' {{ local_foundation_config_path }}
+
+[Install]
+WantedBy=multi-user.target
