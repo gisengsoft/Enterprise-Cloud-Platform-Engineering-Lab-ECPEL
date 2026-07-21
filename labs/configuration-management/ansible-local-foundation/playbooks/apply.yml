@@ -1,0 +1,16 @@
+---
+- name: Apply ECPEL Ansible local foundation static design
+  hosts: ecpel_local_target
+  gather_facts: true
+
+  pre_tasks:
+    - name: Require the approved inventory alias
+      ansible.builtin.assert:
+        that:
+          - inventory_hostname == 'ecpel_local_target'
+          - ansible_connection == 'local'
+        fail_msg: This lab is limited to the ecpel_local_target local inventory alias.
+        success_msg: Approved local inventory alias confirmed.
+
+  roles:
+    - role: local_foundation

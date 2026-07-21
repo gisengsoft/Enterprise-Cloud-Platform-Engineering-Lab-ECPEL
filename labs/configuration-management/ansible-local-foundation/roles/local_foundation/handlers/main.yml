@@ -1,0 +1,11 @@
+---
+- name: Reload systemd units
+  become: true
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Restart validator
+  become: true
+  ansible.builtin.systemd_service:
+    name: "{{ local_foundation_unit_name }}"
+    state: restarted

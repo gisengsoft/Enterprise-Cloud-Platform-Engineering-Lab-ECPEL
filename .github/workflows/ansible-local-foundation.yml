@@ -1,0 +1,225 @@
+name: Ansible Local Foundation Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+    paths:
+      - labs/configuration-management/ansible-local-foundation/**
+      - labs/README.md
+      - .github/workflows/ansible-local-foundation.yml
+  workflow_dispatch:
+    inputs:
+      base_sha:
+        description: Base commit SHA to compare against
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ansible-local-foundation:
+    name: Ansible local foundation static validation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository with history
+        uses: actions/checkout@v7.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Resolve base and head commits
+        id: commits
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${{ github.event_name }}" in
+            pull_request)
+              BASE_SHA="${{ github.event.pull_request.base.sha }}"
+              HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+              git cat-file -e "$BASE_SHA^{commit}"
+              git cat-file -e "$HEAD_SHA^{commit}"
+              DIFF_BASE_SHA="$(git merge-base "$BASE_SHA" "$HEAD_SHA")"
+              ;;
+            push)
+              BASE_SHA="${{ github.event.before }}"
+              HEAD_SHA="${{ github.sha }}"
+              [[ "$BASE_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo 'push before SHA is absent'; exit 1; }
+              [[ ! "$BASE_SHA" =~ ^0{40}$ ]] || { echo 'push before SHA is all zeroes'; exit 1; }
+              git cat-file -e "$BASE_SHA^{commit}"
+              git cat-file -e "$HEAD_SHA^{commit}"
+              DIFF_BASE_SHA="$BASE_SHA"
+              ;;
+            workflow_dispatch)
+              BASE_SHA="${{ inputs.base_sha }}"
+              HEAD_SHA="${{ github.sha }}"
+              [[ "$BASE_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo 'invalid workflow_dispatch base SHA format'; exit 1; }
+              git cat-file -e "$BASE_SHA^{commit}"
+              git cat-file -e "$HEAD_SHA^{commit}"
+              git merge-base --is-ancestor "$BASE_SHA" "$HEAD_SHA"
+              DIFF_BASE_SHA="$BASE_SHA"
+              ;;
+            *) echo 'unsupported event'; exit 1 ;;
+          esac
+          [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo 'invalid head SHA format'; exit 1; }
+          [[ "$DIFF_BASE_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo 'invalid diff base SHA format'; exit 1; }
+          git diff --name-status --find-renames "$DIFF_BASE_SHA" "$HEAD_SHA" | tee /tmp/ansible-local-foundation.diff
+          echo "base_sha=$BASE_SHA" >> "$GITHUB_OUTPUT"
+          echo "diff_base_sha=$DIFF_BASE_SHA" >> "$GITHUB_OUTPUT"
+          echo "head_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Enforce approved changed paths and initial scaffold shape
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          approved_initial = {
+              '.github/workflows/ansible-local-foundation.yml',
+              'labs/configuration-management/ansible-local-foundation/README.md',
+              'labs/configuration-management/ansible-local-foundation/ansible.cfg',
+              'labs/configuration-management/ansible-local-foundation/.ansible-lint',
+              'labs/configuration-management/ansible-local-foundation/requirements.in',
+              'labs/configuration-management/ansible-local-foundation/requirements.lock',
+              'labs/configuration-management/ansible-local-foundation/inventory/local.yml',
+              'labs/configuration-management/ansible-local-foundation/playbooks/apply.yml',
+              'labs/configuration-management/ansible-local-foundation/playbooks/cleanup.yml',
+              'labs/configuration-management/ansible-local-foundation/roles/local_foundation/defaults/main.yml',
+              'labs/configuration-management/ansible-local-foundation/roles/local_foundation/tasks/main.yml',
+              'labs/configuration-management/ansible-local-foundation/roles/local_foundation/handlers/main.yml',
+              'labs/configuration-management/ansible-local-foundation/roles/local_foundation/templates/config.json.j2',
+              'labs/configuration-management/ansible-local-foundation/roles/local_foundation/templates/ecpel-ansible-local-foundation.service.j2',
+              'labs/configuration-management/ansible-local-foundation/scripts/preflight-target.sh',
+              'labs/configuration-management/ansible-local-foundation/tests/validate_structure.py',
+              'labs/configuration-management/ansible-local-foundation/tests/validate_guardrails.py',
+              'labs/configuration-management/ansible-local-foundation/evidence/README.md',
+          }
+          reserved = {
+              'labs/configuration-management/ansible-local-foundation/tests/verify_state.py',
+              'labs/configuration-management/ansible-local-foundation/tests/verify_cleanup.py',
+              'labs/configuration-management/ansible-local-foundation/scripts/preflight-windows.ps1',
+              'labs/configuration-management/ansible-local-foundation/scripts/create-target.ps1',
+              'labs/configuration-management/ansible-local-foundation/scripts/run-local-validation.sh',
+              'labs/configuration-management/ansible-local-foundation/scripts/destroy-target.ps1',
+              'labs/configuration-management/ansible-local-foundation/evidence/manifest.md',
+              'labs/configuration-management/ansible-local-foundation/evidence/validation-summary.md',
+          }
+          allowed = approved_initial | {'labs/README.md'} | reserved
+          rows=[]
+          for line in Path('/tmp/ansible-local-foundation.diff').read_text().splitlines():
+              fields=line.split('\t')
+              status=fields[0]
+              code=status[0]
+              if code in {'R','C'}:
+                  paths=fields[1:3]
+              else:
+                  paths=fields[1:2]
+              if len(paths) not in {1,2} or any(path not in allowed for path in paths):
+                  raise SystemExit(f'unapproved or malformed change record: {line}')
+              rows.append((status, paths))
+          added={paths[0] for status, paths in rows if status == 'A'}
+          modified={paths[0] for status, paths in rows if status == 'M'}
+          deleted=[r for r in rows if r[0].startswith('D')]
+          renamed=[r for r in rows if r[0].startswith('R')]
+          copied=[r for r in rows if r[0].startswith('C')]
+          type_changed=[r for r in rows if r[0].startswith('T')]
+          if '.github/workflows/ansible-local-foundation.yml' in added:
+              if added != approved_initial:
+                  raise SystemExit(f'initial added set mismatch: {sorted(added ^ approved_initial)}')
+              if modified != {'labs/README.md'}:
+                  raise SystemExit(f'initial modified set mismatch: {sorted(modified)}')
+              if deleted or renamed or copied or type_changed:
+                  raise SystemExit('initial scaffold contains deleted, renamed, copied, or type-changed files')
+          print(f'validated {len(rows)} deterministic change records')
+          PY
+
+      - name: Set up Python
+        uses: actions/setup-python@v6.0.0
+        with:
+          python-version: '3.12'
+
+      - name: Report Python and pip
+        run: python -VV && python -m pip --version
+
+      - name: Install locked dependencies
+        working-directory: labs/configuration-management/ansible-local-foundation
+        run: python -m pip install --require-hashes -r requirements.lock
+
+      - name: Validate installed dependencies
+        run: |
+          python -m pip check
+          python - <<'PY'
+          import importlib.metadata as md
+          assert md.version('ansible-core') == '2.21.2'
+          assert md.version('ansible-lint') == '26.6.0'
+          PY
+
+      - name: Run structure and guardrail tests
+        working-directory: labs/configuration-management/ansible-local-foundation
+        run: python tests/validate_structure.py && python tests/validate_guardrails.py
+
+      - name: Validate Ansible inventory and syntax
+        working-directory: labs/configuration-management/ansible-local-foundation
+        run: |
+          ansible-inventory -i inventory/local.yml --list
+          ansible-playbook -i inventory/local.yml playbooks/apply.yml --limit ecpel_local_target --syntax-check
+          ansible-playbook -i inventory/local.yml playbooks/cleanup.yml --limit ecpel_local_target --syntax-check
+
+      - name: Run ansible-lint
+        working-directory: labs/configuration-management/ansible-local-foundation
+        run: ansible-lint playbooks/apply.yml playbooks/cleanup.yml roles/local_foundation
+
+      - name: Validate shell syntax
+        working-directory: labs/configuration-management/ansible-local-foundation
+        run: bash -n scripts/preflight-target.sh
+
+      - name: Validate Markdown and relative links
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          for p in [Path('labs/README.md'), Path('labs/configuration-management/ansible-local-foundation/README.md'), Path('labs/configuration-management/ansible-local-foundation/evidence/README.md')]:
+              s=p.read_text(); assert s.startswith('# '), p; assert s.count('```') % 2 == 0, p
+          assert Path('docs/adr/0008-adopt-ansible-for-initial-linux-configuration-management.md').exists()
+          assert Path('labs/configuration-management/ansible-local-foundation/evidence/README.md').exists()
+          PY
+
+      - name: Scan changed scope for sensitive identifiers and generated artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY' > /tmp/ansible-local-foundation.paths
+          from pathlib import Path
+          for line in Path('/tmp/ansible-local-foundation.diff').read_text().splitlines():
+              fields = line.split('\t')
+              for path in (fields[1:3] if fields[0][0] in {'R','C'} else fields[1:2]):
+                  print(path)
+          PY
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          patterns = [
+              re.compile(r'password[=]', re.I),
+              re.compile('BEGIN [A-Z ]*' + 'PRIVATE' + ' KEY', re.I),
+              re.compile(r'AKIA[0-9A-Z]{16}'),
+              re.compile(r'(?<!ANSIBLE_)' + 'TOKEN' + r'[=]', re.I),
+          ]
+          for rel in Path('/tmp/ansible-local-foundation.paths').read_text().splitlines():
+              path = Path(rel)
+              if not path.is_file():
+                  continue
+              for number, line in enumerate(path.read_text(errors='ignore').splitlines(), 1):
+                  if any(pattern.search(line) for pattern in patterns):
+                      raise SystemExit(f'sensitive identifier candidate in {rel}:{number}')
+          PY
+          ! find labs/configuration-management/ansible-local-foundation -type f \( -name '*.retry' -o -name '*.pyc' -o -name '.coverage' \) | grep .

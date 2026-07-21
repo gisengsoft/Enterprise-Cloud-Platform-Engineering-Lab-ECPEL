@@ -1,0 +1,19 @@
+---
+local_foundation_wsl_distribution: ecpel-ansible-local-foundation
+local_foundation_ubuntu_version: "24.04"
+local_foundation_target_alias: ecpel_local_target
+local_foundation_package_name: jq
+local_foundation_lab_root: /opt/ecpel/ansible-local-foundation
+local_foundation_config_name: config.json
+local_foundation_config_path: /opt/ecpel/ansible-local-foundation/config.json
+local_foundation_marker_path: /opt/ecpel/ansible-local-foundation/.jq-installed-by-lab
+local_foundation_unit_name: ecpel-ansible-local-foundation.service
+local_foundation_unit_path: /etc/systemd/system/ecpel-ansible-local-foundation.service
+local_foundation_directory_owner: root
+local_foundation_directory_group: root
+local_foundation_directory_mode: "0755"
+local_foundation_config_owner: root
+local_foundation_config_group: root
+local_foundation_config_mode: "0644"
+local_foundation_lab_classification: Simulated
+local_foundation_schema_version: "1.0"

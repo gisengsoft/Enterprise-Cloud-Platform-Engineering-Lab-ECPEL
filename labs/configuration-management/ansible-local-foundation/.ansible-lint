@@ -1,0 +1,5 @@
+strict: true
+profile: production
+warn_list:
+  - experimental
+exclude_paths: []

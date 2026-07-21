@@ -1,0 +1,115 @@
+---
+- name: Cleanup ECPEL Ansible local foundation static design
+  hosts: ecpel_local_target
+  gather_facts: true
+
+  pre_tasks:
+    - name: Require the approved inventory alias
+      ansible.builtin.assert:
+        that:
+          - inventory_hostname == 'ecpel_local_target'
+          - ansible_connection == 'local'
+        fail_msg: Cleanup is limited to the ecpel_local_target local inventory alias.
+
+  tasks:
+    - name: Include approved defaults
+      ansible.builtin.include_vars:
+        file: ../roles/local_foundation/defaults/main.yml
+
+    - name: Inspect WSL kernel indicator
+      ansible.builtin.slurp:
+        src: /proc/version
+      register: cleanup_proc_version
+
+    - name: Inspect WSL runtime directory indicator
+      ansible.builtin.stat:
+        path: /run/WSL
+      register: cleanup_wsl_runtime
+
+    - name: Guard cleanup target identity and approved values
+      ansible.builtin.assert:
+        that:
+          - inventory_hostname == 'ecpel_local_target'
+          - ansible_connection == 'local'
+          - ansible_system == 'Linux'
+          - ansible_distribution == 'Ubuntu'
+          - ansible_distribution_version is version(local_foundation_ubuntu_version, '==')
+          - lookup('ansible.builtin.env', 'WSL_DISTRO_NAME') == 'ecpel-ansible-local-foundation'
+          - (cleanup_proc_version.content | b64decode | lower) is search('microsoft')
+          - cleanup_wsl_runtime.stat.isdir | default(false)
+          - ansible_service_mgr == 'systemd'
+          - local_foundation_lab_classification == 'Simulated'
+          - local_foundation_package_name == 'jq'
+          - local_foundation_unit_name == 'ecpel-ansible-local-foundation.service'
+          - local_foundation_unit_path == '/etc/systemd/system/ecpel-ansible-local-foundation.service'
+          - local_foundation_lab_root == '/opt/ecpel/ansible-local-foundation'
+          - local_foundation_config_path == '/opt/ecpel/ansible-local-foundation/config.json'
+          - local_foundation_marker_path == '/opt/ecpel/ansible-local-foundation/.jq-installed-by-lab'
+          - not local_foundation_unit_path.startswith('/mnt/')
+          - not local_foundation_lab_root.startswith('/mnt/')
+          - not local_foundation_config_path.startswith('/mnt/')
+          - not local_foundation_marker_path.startswith('/mnt/')
+        fail_msg: Cleanup guardrails failed; no cleanup actions are approved for this target.
+
+    - name: Inspect lab marker before cleanup mutation
+      ansible.builtin.stat:
+        path: "{{ local_foundation_marker_path }}"
+      register: cleanup_marker
+
+    - name: Inspect approved validator unit before cleanup mutation
+      ansible.builtin.stat:
+        path: "{{ local_foundation_unit_path }}"
+      register: cleanup_unit
+
+    - name: Gather package facts before cleanup mutation
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: Fail before mutation when marker and package state are inconsistent
+      ansible.builtin.assert:
+        that:
+          - not cleanup_marker.stat.exists or local_foundation_package_name in ansible_facts.packages
+        fail_msg: Marker exists but jq is not installed; refusing cleanup mutation because ownership evidence is inconsistent.
+
+    - name: Stop and disable approved validator unit
+      become: true
+      ansible.builtin.systemd_service:
+        name: "{{ local_foundation_unit_name }}"
+        state: stopped
+        enabled: false
+      when: cleanup_unit.stat.exists
+
+    - name: Remove approved validator unit
+      become: true
+      ansible.builtin.file:
+        path: "{{ local_foundation_unit_path }}"
+        state: absent
+      register: cleanup_unit_file
+      when: cleanup_unit.stat.exists
+
+    - name: Reload systemd after unit removal  # noqa: no-handler
+      become: true
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+      when: cleanup_unit_file is changed
+
+    - name: Remove jq only when the lab marker proves lab ownership
+      become: true
+      ansible.builtin.apt:
+        name: "{{ local_foundation_package_name }}"
+        state: absent
+      when:
+        - cleanup_marker.stat.exists
+        - local_foundation_package_name in ansible_facts.packages
+
+    - name: Remove approved configuration file
+      become: true
+      ansible.builtin.file:
+        path: "{{ local_foundation_config_path }}"
+        state: absent
+
+    - name: Remove approved lab directory and marker
+      become: true
+      ansible.builtin.file:
+        path: "{{ local_foundation_lab_root }}"
+        state: absent

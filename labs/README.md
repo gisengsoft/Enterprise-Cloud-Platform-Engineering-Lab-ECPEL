@@ -9,6 +9,7 @@ Labs are evidence-scoped exercises used to validate repository concepts without 
 | Lab | Purpose | Status |
 | --- | --- | --- |
 | [Terraform Local Foundation](terraform-local-foundation/README.md) | Local-only Terraform workflow for variables, validation, locals, modules, outputs, tests, and evidence handling | Simulated |
+| [Ansible Local Foundation](configuration-management/ansible-local-foundation/README.md) | Static local Ansible configuration-management foundation governed by ADR-0008; functional execution remains Not Run | Simulated |
 
 ## Status Notes
 
