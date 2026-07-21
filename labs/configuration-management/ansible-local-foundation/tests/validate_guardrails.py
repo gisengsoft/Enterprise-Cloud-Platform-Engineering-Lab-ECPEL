@@ -111,3 +111,72 @@ require(workflow.get("permissions") == {"contents": "read"}, "workflow permissio
 require("id-token" not in text(ROOT / ".github/workflows/ansible-local-foundation.yml"), "OIDC id-token permission is not allowed")
 
 print("guardrail validation passed")
+
+cleanup_path = LAB / "playbooks/cleanup.yml"
+cleanup_text = text(cleanup_path)
+cleanup_doc = yaml.safe_load(cleanup_text)[0]
+cleanup_tasks = cleanup_doc["tasks"]
+cleanup_names = [task.get("name", "") for task in cleanup_tasks]
+mutation_modules = {"ansible.builtin.systemd_service", "ansible.builtin.apt", "ansible.builtin.file"}
+first_mutation_index = next(
+    index for index, task in enumerate(cleanup_tasks)
+    if any(module in task for module in mutation_modules)
+)
+pre_mutation_text = "\n".join(str(task) for task in cleanup_tasks[:first_mutation_index])
+for required in [
+    "Include approved defaults",
+    "inventory_hostname == 'ecpel_local_target'",
+    "ansible_connection == 'local'",
+    "ansible_system == 'Linux'",
+    "ansible_distribution == 'Ubuntu'",
+    "ansible_distribution_version",
+    "WSL_DISTRO_NAME",
+    "ecpel-ansible-local-foundation",
+    "cleanup_proc_version.content",
+    "cleanup_wsl_runtime.stat.isdir",
+    "ansible_service_mgr == 'systemd'",
+    "local_foundation_lab_classification == 'Simulated'",
+    "local_foundation_package_name == 'jq'",
+    "local_foundation_unit_name == 'ecpel-ansible-local-foundation.service'",
+    "local_foundation_unit_path == '/etc/systemd/system/ecpel-ansible-local-foundation.service'",
+    "local_foundation_lab_root == '/opt/ecpel/ansible-local-foundation'",
+    "local_foundation_config_path == '/opt/ecpel/ansible-local-foundation/config.json'",
+    "local_foundation_marker_path == '/opt/ecpel/ansible-local-foundation/.jq-installed-by-lab'",
+    "not local_foundation_unit_path.startswith('/mnt/')",
+    "not local_foundation_lab_root.startswith('/mnt/')",
+    "not local_foundation_config_path.startswith('/mnt/')",
+    "not local_foundation_marker_path.startswith('/mnt/')",
+    "Inspect lab marker before cleanup mutation",
+    "Inspect approved validator unit before cleanup mutation",
+    "Gather package facts before cleanup mutation",
+    "Fail before mutation when marker and package state are inconsistent",
+    "not cleanup_marker.stat.exists or local_foundation_package_name in ansible_facts.packages",
+]:
+    require(required in pre_mutation_text, f"cleanup pre-mutation guard missing: {required}")
+
+required_order = [
+    "Stop and disable approved validator unit",
+    "Remove approved validator unit",
+    "Reload systemd after unit removal",
+    "Remove jq only when the lab marker proves lab ownership",
+    "Remove approved configuration file",
+    "Remove approved lab directory and marker",
+]
+positions = [cleanup_names.index(name) for name in required_order]
+require(positions == sorted(positions), "cleanup mutation order is not approved")
+require(cleanup_names.index("Inspect lab marker before cleanup mutation") < cleanup_names.index("Remove jq only when the lab marker proves lab ownership"), "marker must be inspected before jq removal")
+require(cleanup_names.index("Remove jq only when the lab marker proves lab ownership") < cleanup_names.index("Remove approved lab directory and marker"), "marker must remain until after jq ownership decision")
+
+for task in cleanup_tasks:
+    if "ansible.builtin.apt" in task:
+        require(task["ansible.builtin.apt"].get("name") == "{{ local_foundation_package_name }}", "cleanup apt task may only target approved package variable")
+        require(task["ansible.builtin.apt"].get("state") == "absent", "cleanup apt task must remove only when approved")
+        require("cleanup_marker.stat.exists" in task.get("when", []), "jq removal must require marker existence")
+    if task.get("name") == "Remove approved validator unit":
+        require(task["ansible.builtin.file"].get("path") == "{{ local_foundation_unit_path }}", "unit removal path must be approved")
+    if task.get("name") == "Remove approved configuration file":
+        require(task["ansible.builtin.file"].get("path") == "{{ local_foundation_config_path }}", "config removal path must be approved")
+    if task.get("name") == "Remove approved lab directory and marker":
+        require(task["ansible.builtin.file"].get("path") == "{{ local_foundation_lab_root }}", "lab root removal path must be approved")
+
+print("cleanup guardrail validation passed")
