@@ -3,11 +3,11 @@
 ## Status
 
 - Lab status: **Simulated**
-- Artifact validation: **Pending** until real Pull Request checks complete
+- Artifact validation: **Passed** through GitHub-hosted static artifact validation
 - Functional execution: **Not Run**
 - Local functional evidence: **Not Available**
 
-Static artifacts in this directory do not prove implementation. No WSL target was created, no functional Ansible execution or check mode was run, and no runtime evidence exists.
+Static artifacts in this directory do not prove implementation. The laboratory remains **Simulated**. GitHub-hosted static artifact validation passed, but functional validation remains **Pending**. No WSL target was created, no functional Ansible execution or check mode was run, and no local runtime evidence exists.
 
 ## Purpose and ADR
 
@@ -74,7 +74,7 @@ PR 2 remains future work. Its gates are 20 GB free on one drive minimum, 30 GB p
 
 ## Evidence
 
-See [evidence/README.md](evidence/README.md). Artifact validation, functional validation, idempotence, cleanup, and target destruction are Pending or Not Run as documented there.
+See [evidence/README.md](evidence/README.md). Artifact validation is Passed through GitHub-hosted static checks. Functional validation, functional execution, check mode, idempotence, cleanup, and target destruction remain Pending or Not Run as documented there.
 
 ## Limitations
 
