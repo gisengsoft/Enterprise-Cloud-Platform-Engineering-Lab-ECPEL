@@ -165,9 +165,11 @@ jobs:
               else:
                   print('change classification: unrelated repository change running Ansible regression checks only')
               for _status, paths, line in related_rows:
-                  for path in paths:
-                      if related(path) and path not in later_allowed:
+                  if _status[0] in {'R','C'}:
+                      if any(path not in later_allowed for path in paths):
                           raise SystemExit(f'unapproved Ansible-scope change record: {line}')
+                  elif any(path not in later_allowed for path in paths if related(path)):
+                      raise SystemExit(f'unapproved Ansible-scope change record: {line}')
 
           added={paths[0] for status, paths, _line in rows if status == 'A'}
           modified={paths[0] for status, paths, _line in rows if status == 'M'}
