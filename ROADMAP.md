@@ -108,7 +108,7 @@ These dependency rules govern phase progression.
 | --- | --- | --- | --- |
 | 0 | Foundation | In Progress | Evidence-first repository foundation and documentation baseline |
 | 1 | Operational Fundamentals | Planned | Operating model, ownership, runbooks, playbooks, and governance basics |
-| 2 | Local Tooling and Validation | Planned | Local checks, Markdown validation, script standards, and safe validation workflows |
+| 2 | Local Tooling and Validation | In Progress | Local checks, Markdown validation, script standards, and safe validation workflows |
 | 3 | Terraform Foundation | Planned | IaC design, state strategy, module conventions, and validation path |
 | 4 | AWS Networking and Identity | Planned | Target account, identity, and networking architecture with ADR-backed decisions |
 | 5 | Security, Cost and Operations Baseline | Planned | Baseline controls for security, FinOps, observability, and operations |
@@ -219,7 +219,9 @@ Define the operating model required before platform implementation begins.
 
 ### Phase 2 — Local Tooling and Validation
 
-**Status:** Planned
+**Status:** In Progress
+
+Work has started through non-destructive GitHub-hosted workflows, static tests, and a read-only future-target preflight. The phase is not complete or Implemented; its exit criteria and remaining deliverables are still unmet.
 
 #### Objective
 

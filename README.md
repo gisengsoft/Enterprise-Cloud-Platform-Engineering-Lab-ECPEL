@@ -8,7 +8,7 @@ ECPEL is a learning and portfolio repository for designing an enterprise-grade c
 
 This repository is the project foundation for an enterprise cloud platform engineering lab. It is organized around the disciplines commonly required to design, govern, operate, and evolve a cloud platform, including architecture, market analysis, platform domains, runbooks, playbooks, security, compliance, FinOps, and delivery workflows.
 
-At the current stage, ECPEL is documentation-first. It does not include implemented cloud infrastructure, deployed services, production automation, or completed labs. The repository includes one local-only simulated Terraform learning lab. Its Terraform configuration has passed automated GitHub Actions validation with Terraform 1.6.0 and Terraform 1.15.8. The lab remains classified as **Simulated**, is not production infrastructure, and does not provision cloud resources. Any future capability must be backed by files, decisions, tests, and documentation in this repository before it is described as implemented.
+At the current stage, ECPEL is documentation-first. It does not include implemented cloud infrastructure, deployed services, production automation, or completed labs. The repository includes two local-only **Simulated** labs: Terraform Local Foundation and Ansible Local Foundation. Both labs have GitHub-hosted static artifact validation, and neither lab provisions cloud resources. The Ansible lab has not been executed functionally and remains static configuration-management scaffolding only. Any future capability must be backed by files, decisions, tests, and documentation in this repository before it is described as implemented.
 
 ## Vision
 
@@ -72,7 +72,7 @@ Future ECPEL designs should follow these principles:
 │   ├── postmortems/         # Postmortem guidance and template
 │   ├── rfcs/                # Request-for-comments guidance and template
 │   └── runbooks/            # Operational runbook guidance and template
-├── labs/                    # Evidence-scoped labs; currently one simulated local Terraform lab
+├── labs/                    # Evidence-scoped local-only Simulated labs for Terraform and Ansible
 ├── ARCHITECTURE.md          # Root architecture entry point
 ├── BLUEPRINT.md             # Root blueprint entry point
 ├── ROADMAP.md               # Root roadmap entry point
@@ -150,6 +150,7 @@ The repository currently names several technology and practice areas as future o
 | Identity Center | Mentioned in documentation only; not implemented |
 | Landing zone | Mentioned in documentation only; not implemented |
 | Terraform | A local-only learning lab exists and is classified as **Simulated**; Terraform has not been adopted as the repository's primary implemented Infrastructure as Code tool, and no cloud infrastructure is provisioned |
+| Ansible | A local-only static configuration-management foundation lab exists and is classified as **Simulated** under ADR-0008; GitHub-hosted static artifact validation has passed, but Ansible has not been executed functionally or in check mode |
 | EKS | Mentioned in documentation only; not implemented |
 | ECS | Mentioned in documentation only; not implemented |
 | GitOps | Mentioned in documentation only; not implemented |
@@ -169,12 +170,13 @@ Current evidence in the repository supports the following statements:
 - The repository structure exists.
 - Documentation entry points exist for architecture, roadmap, blueprint, ADRs, diagrams, operational templates, compliance, market analysis, and labs.
 - Completed market-analysis research artifacts exist, including the 2026 Cloud Market Matrix and the derived market-analysis roadmap.
-- One local-only simulated Terraform learning lab exists.
-- A GitHub Actions workflow validates the local Terraform lab for every Pull Request targeting `main` and for relevant pushes or manual runs.
-- The workflow is a repository regression gate and is not production deployment automation.
+- Two local-only **Simulated** labs exist: Terraform Local Foundation and Ansible Local Foundation.
+- GitHub-hosted static artifact validation exists for both local-only Simulated labs.
+- The Terraform workflow is a repository regression gate and is not production deployment automation.
+- The Ansible workflow is non-destructive static artifact validation and is not production deployment automation.
 - A validated development container exists for GitHub Codespaces and VS Code Dev Containers.
+- `labs/configuration-management/ansible-local-foundation/scripts/preflight-target.sh` is a read-only future-target preflight utility; it checks target prerequisites only and does not implement WSL lifecycle automation or functional Ansible execution.
 - No cloud or platform infrastructure is implemented.
-- No executable utility scripts are present.
 - No cloud resources are provisioned by this repository.
 - No production capability should be considered implemented yet.
 

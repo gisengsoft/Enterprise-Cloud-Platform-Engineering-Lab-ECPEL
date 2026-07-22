@@ -3,7 +3,7 @@
 | Evidence item | Status |
 | --- | --- |
 | Lab classification | Simulated |
-| Artifact validation | Pending |
+| Artifact validation | Passed |
 | Functional validation | Pending |
 | Functional execution | Not Run |
 | Check mode | Not Run |

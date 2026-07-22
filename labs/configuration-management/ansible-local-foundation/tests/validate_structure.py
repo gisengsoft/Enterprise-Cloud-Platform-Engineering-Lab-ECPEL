@@ -74,7 +74,7 @@ for rel in ["labs/README.md", "labs/configuration-management/ansible-local-found
 readme = read("labs/configuration-management/ansible-local-foundation/README.md")
 for section in ["Status", "Purpose and ADR", "Future Target Model", "PR 1 Scope and Exclusions", "Directory Structure", "Dependencies", "Static Validation", "Security Boundaries", "PR 2 Storage and RAM Gates", "Evidence", "Limitations"]:
     require(f"## {section}" in readme, f"missing README section: {section}")
-for value in ["Lab status: **Simulated**", "Artifact validation: **Pending**", "Functional execution: **Not Run**", "Local functional evidence: **Not Available**"]:
+for value in ["Lab status: **Simulated**", "Artifact validation: **Passed**", "Functional execution: **Not Run**", "Local functional evidence: **Not Available**"]:
     require(value in readme, f"missing approved README status: {value}")
 
 labs_index = read("labs/README.md")
@@ -128,7 +128,7 @@ require("name: Terraform ${{ matrix.terraform-version }} local validation" in te
 require("- 1.6.0" in terr and "- 1.15.8" in terr, "Terraform matrix values changed")
 
 evidence = read("labs/configuration-management/ansible-local-foundation/evidence/README.md")
-for value in ["Lab classification | Simulated", "Artifact validation | Pending", "Functional validation | Pending", "Functional execution | Not Run", "Check mode | Not Run", "Idempotence | Not Run", "Cleanup | Not Run", "WSL target created | No", "Local functional evidence | No"]:
+for value in ["Lab classification | Simulated", "Artifact validation | Passed", "Functional validation | Pending", "Functional execution | Not Run", "Check mode | Not Run", "Idempotence | Not Run", "Cleanup | Not Run", "WSL target created | No", "Local functional evidence | No"]:
     require(value in evidence, f"missing evidence value: {value}")
 
 print("structure validation passed")

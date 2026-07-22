@@ -33,7 +33,7 @@ The long-term vision is a platform that provides:
 
 ## Current Repository Evidence
 
-The repository currently provides documentation, research, diagrams, ADRs, validated local tooling evidence, and one simulated local lab. Planned `platform/**` paths represent target-domain documentation or future implementation locations; no `platform/` directory is currently versioned, and the existence of a planned path is not implementation evidence.
+The repository currently provides documentation, research, diagrams, ADRs, validated local tooling evidence, and two local-only **Simulated** labs. Planned `platform/**` paths represent target-domain documentation or future implementation locations; no `platform/` directory is currently versioned, and the existence of a planned path is not implementation evidence.
 
 Current evidence supports only these architectural statements:
 
@@ -42,11 +42,13 @@ Current evidence supports only these architectural statements:
 - ECPEL has substantive ADRs recorded under [docs/adr](docs/adr/README.md), including current deferral ADRs for cloud strategy, GitOps strategy, and primary IaC tool selection.
 - ECPEL has version-controlled diagram documents under [docs/diagrams](docs/diagrams/README.md).
 - ECPEL has completed market-analysis research artifacts under [docs/market-analysis](docs/market-analysis/README.md), including the 2026 Cloud Market Matrix and its derived roadmap.
-- ECPEL has one local-only Terraform learning lab under [labs/terraform-local-foundation](labs/terraform-local-foundation/README.md), classified as **Simulated**.
+- ECPEL has a local-only Terraform learning lab under [labs/terraform-local-foundation](labs/terraform-local-foundation/README.md), classified as **Simulated**.
 - The simulated Terraform lab contains local Terraform configuration and a local naming module, but it provisions no cloud resources and does not adopt Terraform as the primary implemented IaC tool.
 - ECPEL has a non-destructive GitHub Actions workflow that validates the simulated Terraform lab as a repository regression gate; it is not production deployment automation.
+- ECPEL has a local-only static configuration-management lab under [labs/configuration-management/ansible-local-foundation](labs/configuration-management/ansible-local-foundation/README.md), classified as **Simulated** and governed by ADR-0008.
+- The simulated Ansible lab has a non-destructive static validation workflow for artifact structure, guardrails, dependency installation, inventory parsing, playbook syntax checks, and linting; it is not production deployment automation and does not execute Ansible functionally.
 - ECPEL has a **Validated** development container for GitHub Codespaces and VS Code Dev Containers.
-- ECPEL does not currently contain implemented cloud infrastructure, deployed cloud resources, production deployment automation, GitOps automation, or working platform services.
+- ECPEL does not currently contain implemented cloud infrastructure, deployed cloud resources, production deployment automation, GitOps automation, a functional Ansible target, or working platform services.
 
 ## Architecture Principles
 
