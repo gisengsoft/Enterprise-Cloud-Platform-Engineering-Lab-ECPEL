@@ -72,17 +72,21 @@ jobs:
           esac
           [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo 'invalid head SHA format'; exit 1; }
           [[ "$DIFF_BASE_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo 'invalid diff base SHA format'; exit 1; }
-          git diff --name-status --find-renames "$DIFF_BASE_SHA" "$HEAD_SHA" | tee /tmp/ansible-local-foundation.diff
+          git diff --name-status --find-renames --find-copies --find-copies-harder "$DIFF_BASE_SHA" "$HEAD_SHA" | tee /tmp/ansible-local-foundation.diff
           echo "base_sha=$BASE_SHA" >> "$GITHUB_OUTPUT"
           echo "diff_base_sha=$DIFF_BASE_SHA" >> "$GITHUB_OUTPUT"
           echo "head_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
 
       - name: Enforce approved changed paths and initial scaffold shape
         shell: bash
+        env:
+          DIFF_BASE_SHA: ${{ steps.commits.outputs.diff_base_sha }}
         run: |
           set -euo pipefail
           python - <<'PY'
           from pathlib import Path
+          import os
+          import subprocess
           approved_initial = {
               '.github/workflows/ansible-local-foundation.yml',
               'labs/configuration-management/ansible-local-foundation/README.md',
@@ -113,26 +117,65 @@ jobs:
               'labs/configuration-management/ansible-local-foundation/evidence/manifest.md',
               'labs/configuration-management/ansible-local-foundation/evidence/validation-summary.md',
           }
-          allowed = approved_initial | {'labs/README.md'} | reserved
-          rows=[]
-          for line in Path('/tmp/ansible-local-foundation.diff').read_text().splitlines():
-              fields=line.split('\t')
-              status=fields[0]
-              code=status[0]
-              if code in {'R','C'}:
-                  paths=fields[1:3]
+          workflow = '.github/workflows/ansible-local-foundation.yml'
+          lab_prefix = 'labs/configuration-management/ansible-local-foundation/'
+          initial_allowed = approved_initial | {'labs/README.md'}
+          later_allowed = approved_initial | reserved
+
+          def related(path):
+              return path == workflow or path.startswith(lab_prefix)
+
+          def parse_rows(diff_file):
+              rows = []
+              for line in Path(diff_file).read_text().splitlines():
+                  fields=line.split('\t')
+                  status=fields[0]
+                  code=status[0]
+                  if code not in {'A','M','D','R','C','T'}:
+                      raise SystemExit(f'unsupported change record status: {line}')
+                  if code in {'R','C'}:
+                      if len(fields) != 3:
+                          raise SystemExit(f'malformed rename/copy change record: {line}')
+                      paths=fields[1:3]
+                  else:
+                      if len(fields) != 2:
+                          raise SystemExit(f'malformed change record: {line}')
+                      paths=fields[1:2]
+                  rows.append((status, paths, line))
+              return rows
+
+          rows = parse_rows('/tmp/ansible-local-foundation.diff')
+          diff_base_sha = os.environ['DIFF_BASE_SHA']
+          base_has_lab = subprocess.run(
+              ['git', 'cat-file', '-e', f'{diff_base_sha}:{lab_prefix}README.md'],
+              check=False,
+              stdout=subprocess.DEVNULL,
+              stderr=subprocess.DEVNULL,
+          ).returncode == 0
+
+          if not base_has_lab:
+              print('change classification: initial Ansible scaffold')
+              for _status, paths, line in rows:
+                  if any(path not in initial_allowed for path in paths):
+                      raise SystemExit(f'unapproved initial scaffold change record: {line}')
+          else:
+              related_rows = [(status, paths, line) for status, paths, line in rows if any(related(path) for path in paths)]
+              if related_rows:
+                  print('change classification: later Ansible-related change')
               else:
-                  paths=fields[1:2]
-              if len(paths) not in {1,2} or any(path not in allowed for path in paths):
-                  raise SystemExit(f'unapproved or malformed change record: {line}')
-              rows.append((status, paths))
-          added={paths[0] for status, paths in rows if status == 'A'}
-          modified={paths[0] for status, paths in rows if status == 'M'}
+                  print('change classification: unrelated repository change running Ansible regression checks only')
+              for _status, paths, line in related_rows:
+                  for path in paths:
+                      if related(path) and path not in later_allowed:
+                          raise SystemExit(f'unapproved Ansible-scope change record: {line}')
+
+          added={paths[0] for status, paths, _line in rows if status == 'A'}
+          modified={paths[0] for status, paths, _line in rows if status == 'M'}
           deleted=[r for r in rows if r[0].startswith('D')]
           renamed=[r for r in rows if r[0].startswith('R')]
           copied=[r for r in rows if r[0].startswith('C')]
           type_changed=[r for r in rows if r[0].startswith('T')]
-          if '.github/workflows/ansible-local-foundation.yml' in added:
+          if not base_has_lab:
               if added != approved_initial:
                   raise SystemExit(f'initial added set mismatch: {sorted(added ^ approved_initial)}')
               if modified != {'labs/README.md'}:
@@ -200,10 +243,13 @@ jobs:
           set -euo pipefail
           python - <<'PY' > /tmp/ansible-local-foundation.paths
           from pathlib import Path
+          workflow = '.github/workflows/ansible-local-foundation.yml'
+          lab_prefix = 'labs/configuration-management/ansible-local-foundation/'
           for line in Path('/tmp/ansible-local-foundation.diff').read_text().splitlines():
               fields = line.split('\t')
               for path in (fields[1:3] if fields[0][0] in {'R','C'} else fields[1:2]):
-                  print(path)
+                  if path == workflow or path.startswith(lab_prefix):
+                      print(path)
           PY
           python - <<'PY'
           from pathlib import Path
